@@ -1,0 +1,183 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 160rpx;
+}
+
+.orderInfo {
+  background: $color-bg-card;
+  padding: 32rpx $page-padding;
+}
+
+.orderTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.orderMeta {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-top: 12rpx;
+}
+
+.orderId {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.orderStatus {
+  font-size: $font-size-xs;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+  background: $color-tag-bg;
+  color: $color-tag-text;
+}
+
+.section {
+  background: $color-bg-card;
+  margin-top: 16rpx;
+  padding: 32rpx $page-padding;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 24rpx;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 40rpx;
+}
+
+.timelineItem {
+  position: relative;
+  padding-bottom: 40rpx;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.timelineDot {
+  position: absolute;
+  left: -40rpx;
+  top: 8rpx;
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: $radius-round;
+  background: $color-border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timelineDotDone {
+  background: $color-success;
+}
+
+.timelineDotCurrent {
+  background: $color-primary;
+  box-shadow: 0 0 0 8rpx rgba(37, 99, 235, 0.2);
+}
+
+.timelineLine {
+  position: absolute;
+  left: -28rpx;
+  top: 32rpx;
+  bottom: 0;
+  width: 2rpx;
+  background: $color-border;
+}
+
+.timelineLineDone {
+  background: $color-success;
+}
+
+.timelineTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.timelineTitleDone {
+  color: $color-success;
+}
+
+.timelineTitleCurrent {
+  color: $color-primary;
+}
+
+.timelineDesc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}
+
+.timelineDate {
+  font-size: $font-size-xs;
+  color: $color-text-disabled;
+  margin-top: 4rpx;
+}
+
+.actionArea {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: 16rpx $page-padding;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.06);
+  display: flex;
+  gap: 16rpx;
+  z-index: 100;
+}
+
+.withdrawBtn {
+  height: $button-height-lg;
+  padding: 0 32rpx;
+  border: 1rpx solid $color-border;
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-bg-card;
+  transition: all $transition-base;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.withdrawBtnText {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+}
+
+.confirmBtn {
+  flex: 1;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.confirmBtnText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+}

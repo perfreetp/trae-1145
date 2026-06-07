@@ -1,0 +1,163 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 120rpx;
+}
+
+.profileCard {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: 40rpx $page-padding 48rpx;
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: $radius-round;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+
+.userInfo {
+  margin-left: 24rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.userName {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text-white;
+  margin-bottom: 4rpx;
+}
+
+.userCompany {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.userRole {
+  font-size: $font-size-xs;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 8rpx;
+  display: inline-flex;
+  padding: 2rpx 16rpx;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: $radius-round;
+}
+
+.statsCard {
+  margin: -24rpx $page-padding 0;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  display: flex;
+  padding: 32rpx 0;
+  position: relative;
+  z-index: 1;
+}
+
+.statItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 16rpx;
+    bottom: 16rpx;
+    width: 1rpx;
+    background: $color-divider;
+  }
+}
+
+.statValue {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+}
+
+.statLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 4rpx;
+}
+
+.menuSection {
+  margin: 24rpx $page-padding 0;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  overflow: hidden;
+}
+
+.menuSectionTitle {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-tertiary;
+  padding: 24rpx 32rpx 8rpx;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 32rpx;
+  transition: background $transition-fast;
+
+  &:active {
+    background: $color-bg-hover;
+  }
+}
+
+.menuIcon {
+  font-size: 40rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+
+.menuContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.menuLabel {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+}
+
+.menuDesc {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 2rpx;
+}
+
+.menuArrow {
+  font-size: $font-size-sm;
+  color: $color-text-disabled;
+  flex-shrink: 0;
+}
+
+.menuBadge {
+  min-width: 32rpx;
+  height: 32rpx;
+  background: $color-error;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8rpx;
+  margin-right: 8rpx;
+  flex-shrink: 0;
+}
+
+.menuBadgeText {
+  font-size: 18rpx;
+  color: $color-text-white;
+}

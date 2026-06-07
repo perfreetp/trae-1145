@@ -1,0 +1,133 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  width: 100%;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: 24rpx;
+  box-shadow: $shadow-card;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.95;
+    transform: scale(0.99);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.avatar {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: $radius-round;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  @include text-ellipsis;
+}
+
+.status {
+  font-size: $font-size-xs;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.statusOpen {
+  background: $color-tag-bg-green;
+  color: $color-tag-text-green;
+}
+
+.statusProgress {
+  background: $color-tag-bg-orange;
+  color: $color-tag-text-orange;
+}
+
+.statusClosed {
+  background: $color-bg-hover;
+  color: $color-text-tertiary;
+}
+
+.title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  line-height: $line-height-tight;
+  @include text-ellipsis-multi(1);
+}
+
+.desc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  line-height: $line-height-normal;
+  margin-top: 8rpx;
+  @include text-ellipsis-multi(2);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 16rpx;
+}
+
+.tag {
+  font-size: $font-size-xs;
+  padding: 4rpx 12rpx;
+  border-radius: $radius-xs;
+  background: $color-tag-bg;
+  color: $color-tag-text;
+  white-space: nowrap;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16rpx;
+}
+
+.budget {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-price;
+}
+
+.budgetUnit {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-normal;
+  color: $color-text-tertiary;
+}
+
+.response {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.deadline {
+  margin-top: 12rpx;
+  padding-top: 12rpx;
+  border-top: 1rpx solid $color-divider;
+}
+
+.deadlineText {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}

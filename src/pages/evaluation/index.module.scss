@@ -1,0 +1,59 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding: 24rpx $page-padding;
+}
+
+.listWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.evalCard {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: 24rpx;
+  box-shadow: $shadow-card;
+}
+
+.evalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.evalTarget {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis;
+  flex: 1;
+}
+
+.evalDate {
+  font-size: $font-size-xs;
+  color: $color-text-disabled;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.evalStars {
+  font-size: $font-size-md;
+  margin-bottom: 8rpx;
+}
+
+.evalContent {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+}
+
+.evalAuthor {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 8rpx;
+}

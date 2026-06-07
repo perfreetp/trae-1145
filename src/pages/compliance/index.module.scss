@@ -1,0 +1,223 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 120rpx;
+}
+
+.alertCard {
+  margin: 24rpx $page-padding 0;
+  background: #FFFBEB;
+  border: 1rpx solid #FDE68A;
+  border-radius: $radius-md;
+  padding: 24rpx;
+  display: flex;
+  align-items: flex-start;
+}
+
+.alertIcon {
+  font-size: $font-size-lg;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.alertContent {
+  flex: 1;
+}
+
+.alertTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: #92400E;
+}
+
+.alertDesc {
+  font-size: $font-size-sm;
+  color: #A16207;
+  margin-top: 4rpx;
+  line-height: $line-height-normal;
+}
+
+.section {
+  background: $color-bg-card;
+  margin: 24rpx $page-padding 0;
+  border-radius: $radius-md;
+  padding: 32rpx;
+  box-shadow: $shadow-card;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 20rpx;
+}
+
+.uploadItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.uploadLabel {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+}
+
+.uploadStatus {
+  font-size: $font-size-sm;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+}
+
+.uploadDone {
+  background: $color-tag-bg-green;
+  color: $color-tag-text-green;
+}
+
+.uploadPending {
+  background: $color-tag-bg-orange;
+  color: $color-tag-text-orange;
+}
+
+.uploadMissing {
+  background: #FEF2F2;
+  color: #DC2626;
+}
+
+.uploadBtn {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  margin-left: 12rpx;
+}
+
+.authItem {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-xs;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+  transition: all $transition-fast;
+}
+
+.checkboxChecked {
+  background: $color-primary;
+  border-color: $color-primary;
+}
+
+.checkboxText {
+  font-size: $font-size-xs;
+  color: $color-text-white;
+}
+
+.authLabel {
+  flex: 1;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+}
+
+.authDesc {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 2rpx;
+}
+
+.sampleCard {
+  background: $color-bg-card;
+  margin: 24rpx $page-padding 0;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+}
+
+.sampleHeader {
+  padding: 24rpx 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sampleTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.sampleBtn {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  padding: 4rpx 16rpx;
+  background: $color-tag-bg;
+  border-radius: $radius-round;
+}
+
+.samplePreview {
+  padding: 0 32rpx 24rpx;
+}
+
+.sampleRow {
+  display: flex;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.sampleField {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  width: 160rpx;
+  flex-shrink: 0;
+}
+
+.sampleValue {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  flex: 1;
+}
+
+.submitBtn {
+  margin: 48rpx $page-padding 32rpx;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.submitBtnText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+}

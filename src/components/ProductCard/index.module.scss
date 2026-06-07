@@ -1,0 +1,110 @@
+@use '@/styles/variables.scss' as *;
+
+.card {
+  width: 100%;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.95;
+    transform: scale(0.99);
+  }
+}
+
+.compact {
+  .info {
+    padding: 16rpx 24rpx 20rpx;
+  }
+
+  .title {
+    font-size: $font-size-md;
+    -webkit-line-clamp: 1;
+  }
+
+  .desc {
+    display: none;
+  }
+}
+
+.cover {
+  width: 100%;
+  height: 240rpx;
+}
+
+.info {
+  padding: 20rpx 24rpx 24rpx;
+}
+
+.title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  line-height: $line-height-tight;
+  @include text-ellipsis-multi(1);
+}
+
+.desc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  line-height: $line-height-normal;
+  margin-top: 8rpx;
+  @include text-ellipsis-multi(2);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 16rpx;
+}
+
+.tag {
+  font-size: $font-size-xs;
+  padding: 4rpx 12rpx;
+  border-radius: $radius-xs;
+  background: $color-tag-bg;
+  color: $color-tag-text;
+  white-space: nowrap;
+}
+
+.tagGreen {
+  background: $color-tag-bg-green;
+  color: $color-tag-text-green;
+}
+
+.tagOrange {
+  background: $color-tag-bg-orange;
+  color: $color-tag-text-orange;
+}
+
+.tagRed {
+  background: #FEF2F2;
+  color: #DC2626;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16rpx;
+}
+
+.price {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-price;
+}
+
+.priceUnit {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-normal;
+  color: $color-text-tertiary;
+}
+
+.views {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}

@@ -1,0 +1,104 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding: 24rpx $page-padding;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.contactCard {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: 24rpx;
+  box-shadow: $shadow-card;
+  display: flex;
+  align-items: center;
+}
+
+.contactAvatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: $radius-round;
+  flex-shrink: 0;
+}
+
+.contactInfo {
+  margin-left: 20rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.contactName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.contactCompany {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-top: 4rpx;
+}
+
+.contactRole {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 2rpx;
+}
+
+.contactActions {
+  display: flex;
+  gap: 12rpx;
+  flex-shrink: 0;
+}
+
+.actionIcon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-round;
+  background: $color-tag-bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  transition: all $transition-fast;
+
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.addBtn {
+  position: fixed;
+  right: 40rpx;
+  bottom: 120rpx;
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: $radius-round;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  box-shadow: $shadow-float;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.addIcon {
+  font-size: 40rpx;
+}
+
+.addText {
+  font-size: 18rpx;
+  color: $color-text-white;
+}

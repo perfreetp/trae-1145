@@ -1,0 +1,70 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding: 24rpx $page-padding;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.historyCard {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: 24rpx;
+  box-shadow: $shadow-card;
+}
+
+.historyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.historyTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis;
+  flex: 1;
+}
+
+.historyStatus {
+  font-size: $font-size-xs;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+  background: $color-tag-bg-green;
+  color: $color-tag-text-green;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: 12rpx;
+}
+
+.historyInfo {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-top: 8rpx;
+}
+
+.historyPartner {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.historyDate {
+  font-size: $font-size-xs;
+  color: $color-text-disabled;
+}
+
+.historyAmount {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-price;
+  margin-top: 8rpx;
+}

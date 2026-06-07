@@ -1,0 +1,164 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 160rpx;
+}
+
+.header {
+  background: $color-bg-card;
+  padding: 32rpx $page-padding;
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  line-height: $line-height-tight;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 16rpx;
+}
+
+.tag {
+  font-size: $font-size-xs;
+  padding: 4rpx 12rpx;
+  border-radius: $radius-xs;
+  background: $color-tag-bg;
+  color: $color-tag-text;
+  white-space: nowrap;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  margin-top: 20rpx;
+}
+
+.budget {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-price;
+}
+
+.budgetUnit {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.deadline {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.section {
+  background: $color-bg-card;
+  margin-top: 16rpx;
+  padding: 32rpx $page-padding;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 16rpx;
+}
+
+.desc {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  line-height: $line-height-loose;
+}
+
+.demander {
+  display: flex;
+  align-items: center;
+}
+
+.demanderAvatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: $radius-round;
+  flex-shrink: 0;
+}
+
+.demanderInfo {
+  margin-left: 16rpx;
+  flex: 1;
+}
+
+.demanderName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.demanderLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 2rpx;
+}
+
+.responseInfo {
+  display: flex;
+  align-items: center;
+  gap: 32rpx;
+  margin-top: 8rpx;
+}
+
+.responseStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.responseValue {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+}
+
+.responseLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.bottomBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: 16rpx $page-padding;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.06);
+  z-index: 100;
+}
+
+.primaryBtn {
+  width: 100%;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.primaryBtnText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+}

@@ -1,0 +1,277 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 140rpx;
+}
+
+.coverWrap {
+  width: 100%;
+  height: 400rpx;
+  position: relative;
+}
+
+.cover {
+  width: 100%;
+  height: 100%;
+}
+
+.riskBadge {
+  position: absolute;
+  top: 24rpx;
+  right: 24rpx;
+  padding: 6rpx 20rpx;
+  border-radius: $radius-round;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+}
+
+.riskLow {
+  background: rgba(0, 180, 42, 0.9);
+  color: $color-text-white;
+}
+
+.riskMedium {
+  background: rgba(255, 125, 0, 0.9);
+  color: $color-text-white;
+}
+
+.riskHigh {
+  background: rgba(245, 63, 63, 0.9);
+  color: $color-text-white;
+}
+
+.mainInfo {
+  background: $color-bg-card;
+  padding: 32rpx $page-padding;
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  line-height: $line-height-tight;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 16rpx;
+}
+
+.tag {
+  font-size: $font-size-xs;
+  padding: 4rpx 12rpx;
+  border-radius: $radius-xs;
+  background: $color-tag-bg;
+  color: $color-tag-text;
+  white-space: nowrap;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  margin-top: 20rpx;
+}
+
+.price {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  color: $color-price;
+}
+
+.priceUnit {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  margin-left: 4rpx;
+}
+
+.provider {
+  display: flex;
+  align-items: center;
+  background: $color-bg-card;
+  padding: 24rpx $page-padding;
+  margin-top: 16rpx;
+}
+
+.providerAvatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: $radius-round;
+  flex-shrink: 0;
+}
+
+.providerInfo {
+  margin-left: 16rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.providerName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.providerLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 2rpx;
+}
+
+.section {
+  background: $color-bg-card;
+  padding: 32rpx $page-padding;
+  margin-top: 16rpx;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 16rpx;
+}
+
+.desc {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  line-height: $line-height-loose;
+}
+
+.sampleBtn {
+  display: inline-flex;
+  align-items: center;
+  height: $button-height-sm;
+  padding: 0 24rpx;
+  background: $color-tag-bg;
+  border-radius: $radius-round;
+  margin-top: 16rpx;
+  transition: all $transition-fast;
+
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.sampleBtnText {
+  font-size: $font-size-sm;
+  color: $color-primary;
+}
+
+.statRow {
+  display: flex;
+  gap: 48rpx;
+  margin-top: 8rpx;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.statValue {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.statLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-top: 2rpx;
+}
+
+.riskAlert {
+  background: #FEF2F2;
+  border: 1rpx solid #FECACA;
+  border-radius: $radius-md;
+  padding: 20rpx 24rpx;
+  margin-top: 16rpx;
+  display: flex;
+  align-items: flex-start;
+}
+
+.riskAlertIcon {
+  font-size: $font-size-lg;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+
+.riskAlertContent {
+  flex: 1;
+}
+
+.riskAlertTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: #DC2626;
+}
+
+.riskAlertDesc {
+  font-size: $font-size-sm;
+  color: #991B1B;
+  margin-top: 4rpx;
+  line-height: $line-height-normal;
+}
+
+.bottomBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: 16rpx $page-padding;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  z-index: 100;
+}
+
+.actionBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rpx 24rpx;
+  transition: all $transition-fast;
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.actionBtnIcon {
+  font-size: 40rpx;
+}
+
+.actionBtnText {
+  font-size: 18rpx;
+  color: $color-text-secondary;
+  margin-top: 2rpx;
+}
+
+.primaryBtn {
+  flex: 1;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.primaryBtnText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+}

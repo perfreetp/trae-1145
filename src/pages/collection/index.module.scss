@@ -1,0 +1,53 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding: 24rpx $page-padding;
+}
+
+.listWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.compareBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: 16rpx $page-padding;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+}
+
+.compareInfo {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+}
+
+.compareBtn {
+  height: $button-height-md;
+  padding: 0 32rpx;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.compareBtnText {
+  font-size: $font-size-md;
+  color: $color-text-white;
+}

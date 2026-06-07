@@ -1,0 +1,79 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 140rpx;
+}
+
+.searchWrap {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: 0 $page-padding 24rpx;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-round;
+  height: 72rpx;
+  padding: 0 24rpx;
+  backdrop-filter: blur(10px);
+}
+
+.searchIcon {
+  font-size: $font-size-md;
+  margin-right: 12rpx;
+}
+
+.searchPlaceholder {
+  font-size: $font-size-md;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.filterWrap {
+  padding: 16rpx 0;
+  background: $color-bg-card;
+}
+
+.listWrap {
+  padding: 24rpx $page-padding;
+}
+
+.demandList {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.fab {
+  position: fixed;
+  right: 40rpx;
+  bottom: 180rpx;
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: $radius-round;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  box-shadow: $shadow-float;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.9;
+  }
+}
+
+.fabIcon {
+  font-size: 40rpx;
+}
+
+.fabText {
+  font-size: 18rpx;
+  color: $color-text-white;
+  margin-top: 2rpx;
+}

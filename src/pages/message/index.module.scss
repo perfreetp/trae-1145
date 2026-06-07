@@ -1,0 +1,119 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+}
+
+.tabs {
+  display: flex;
+  background: $color-bg-card;
+  padding: 0 $page-padding;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  position: relative;
+}
+
+.tabText {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+}
+
+.tabTextActive {
+  color: $color-primary;
+  font-weight: $font-weight-semibold;
+}
+
+.tabLine {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48rpx;
+  height: 6rpx;
+  background: $color-primary;
+  border-radius: 3rpx;
+}
+
+.listWrap {
+  padding: 24rpx $page-padding;
+}
+
+.messageList {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.messageCard {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: 24rpx;
+  box-shadow: $shadow-card;
+  transition: all $transition-base;
+  position: relative;
+
+  &:active {
+    opacity: 0.95;
+  }
+}
+
+.messageUnread {
+  border-left: 6rpx solid $color-primary;
+}
+
+.messageHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+
+.messageType {
+  font-size: $font-size-xs;
+  padding: 2rpx 12rpx;
+  border-radius: $radius-xs;
+  white-space: nowrap;
+}
+
+.typeSystem {
+  background: $color-tag-bg;
+  color: $color-tag-text;
+}
+
+.typeTransaction {
+  background: $color-tag-bg-orange;
+  color: $color-tag-text-orange;
+}
+
+.typeProgress {
+  background: $color-tag-bg-green;
+  color: $color-tag-text-green;
+}
+
+.messageTime {
+  font-size: $font-size-xs;
+  color: $color-text-disabled;
+}
+
+.messageTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  @include text-ellipsis-multi(1);
+}
+
+.messageContent {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  line-height: $line-height-normal;
+  margin-top: 8rpx;
+  @include text-ellipsis-multi(2);
+}

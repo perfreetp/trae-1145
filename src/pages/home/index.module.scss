@@ -1,0 +1,168 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 120rpx;
+}
+
+.header {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: 0 $page-padding 32rpx;
+  display: flex;
+  align-items: center;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: $radius-round;
+  height: 72rpx;
+  padding: 0 24rpx;
+  backdrop-filter: blur(10px);
+  flex: 1;
+}
+
+.searchIcon {
+  font-size: $font-size-md;
+  margin-right: 12rpx;
+}
+
+.searchText {
+  font-size: $font-size-md;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  margin-left: 16rpx;
+  position: relative;
+}
+
+.msgIcon {
+  font-size: 44rpx;
+}
+
+.badge {
+  position: absolute;
+  top: -8rpx;
+  right: -8rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  background: $color-error;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8rpx;
+}
+
+.badgeText {
+  font-size: 18rpx;
+  color: $color-text-white;
+}
+
+.bannerWrap {
+  margin: 24rpx $page-padding 0;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+  height: 300rpx;
+}
+
+.bannerItem {
+  width: 100%;
+  height: 300rpx;
+  border-radius: $radius-lg;
+}
+
+.quickEntries {
+  display: flex;
+  justify-content: space-between;
+  padding: 32rpx $page-padding;
+  margin: 0 $page-padding;
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  box-shadow: $shadow-card;
+  margin-top: 24rpx;
+}
+
+.entryItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.entryIcon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44rpx;
+}
+
+.entryIconBlue {
+  background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+}
+
+.entryIconGreen {
+  background: linear-gradient(135deg, #F0FDF4 0%, #DCFCE7 100%);
+}
+
+.entryIconOrange {
+  background: linear-gradient(135deg, #FFF7ED 0%, #FED7AA 100%);
+}
+
+.entryIconPurple {
+  background: linear-gradient(135deg, #FAF5FF 0%, #E9D5FF 100%);
+}
+
+.entryIconRed {
+  background: linear-gradient(135deg, #FEF2F2 0%, #FECACA 100%);
+}
+
+.entryName {
+  font-size: $font-size-xs;
+  color: $color-text-secondary;
+  white-space: nowrap;
+}
+
+.section {
+  margin-top: 32rpx;
+  padding: 0 $page-padding;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.sectionMore {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.productList {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.demandList {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
