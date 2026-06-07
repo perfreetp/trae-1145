@@ -31,9 +31,13 @@ const statusLabelMap: Record<string, string> = {
   withdrawn: '已撤回'
 };
 
+let msgIdCounter = 600;
+
 const ProgressPage: React.FC = () => {
   const router = useRouter();
   const intentionOrders = useAppStore(s => s.intentionOrders);
+  const updateOrderStatus = useAppStore(s => s.updateOrderStatus);
+  const addMessage = useAppStore(s => s.addMessage);
   const order = intentionOrders.find(o => o.id === router.params.id);
 
   const orderTitle = order?.productTitle || '城市交通流量实时数据';
@@ -56,6 +60,18 @@ const ProgressPage: React.FC = () => {
       content: '撤回后交易将终止，确认撤回吗？',
       success: (res) => {
         if (res.confirm) {
+          updateOrderStatus(orderId, 'withdrawn');
+          const now = new Date();
+          const timeStr = `${now.toISOString().slice(0, 10)} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+          addMessage({
+            id: `msg_${++msgIdCounter}`,
+            title: '交易已撤回',
+            content: `订单"${orderTitle}"已被撤回，交易终止。`,
+            type: 'progress',
+            read: false,
+            createdAt: timeStr,
+            linkUrl: `/pages/progress/index?id=${orderId}`
+          });
           Taro.showToast({ title: '已撤回申请', icon: 'success' });
         }
       }
@@ -68,6 +84,18 @@ const ProgressPage: React.FC = () => {
       content: '确认当前交易达成？',
       success: (res) => {
         if (res.confirm) {
+          updateOrderStatus(orderId, 'confirmed');
+          const now = new Date();
+          const timeStr = `${now.toISOString().slice(0, 10)} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+          addMessage({
+            id: `msg_${++msgIdCounter}`,
+            title: '交易已确认',
+            content: `订单"${orderTitle}"已确认成交，请等待数据交付。`,
+            type: 'transaction',
+            read: false,
+            createdAt: timeStr,
+            linkUrl: `/pages/progress/index?id=${orderId}`
+          });
           Taro.showToast({ title: '已确认成交', icon: 'success' });
         }
       }
@@ -85,6 +113,9 @@ const ProgressPage: React.FC = () => {
     if (index === currentNodeIndex) return styles.timelineTitleCurrent;
     return styles.timelineTitle;
   };
+
+  const isWithdrawn = orderStatus === 'withdrawn';
+  const isConfirmed = orderStatus === 'confirmed';
 
   return (
     <View className={styles.container}>
@@ -115,14 +146,32 @@ const ProgressPage: React.FC = () => {
         </View>
       </View>
 
-      <View className={styles.actionArea}>
-        <View className={styles.withdrawBtn} onClick={handleWithdraw}>
-          <Text className={styles.withdrawBtnText}>撤回申请</Text>
+      {!isWithdrawn && !isConfirmed && (
+        <View className={styles.actionArea}>
+          <View className={styles.withdrawBtn} onClick={handleWithdraw}>
+            <Text className={styles.withdrawBtnText}>撤回申请</Text>
+          </View>
+          <View className={styles.confirmBtn} onClick={handleConfirm}>
+            <Text className={styles.confirmBtnText}>确认成交</Text>
+          </View>
         </View>
-        <View className={styles.confirmBtn} onClick={handleConfirm}>
-          <Text className={styles.confirmBtnText}>确认成交</Text>
+      )}
+
+      {isConfirmed && (
+        <View className={styles.actionArea}>
+          <View className={styles.confirmedBtn}>
+            <Text className={styles.confirmedBtnText}>✓ 交易已确认</Text>
+          </View>
         </View>
-      </View>
+      )}
+
+      {isWithdrawn && (
+        <View className={styles.actionArea}>
+          <View className={styles.withdrawnBtn}>
+            <Text className={styles.withdrawnBtnText}>交易已撤回</Text>
+          </View>
+        </View>
+      )}
     </View>
   );
 };

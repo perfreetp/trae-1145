@@ -127,6 +127,37 @@
   @include text-ellipsis-multi(1);
 }
 
+.orderQuoteRow {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  margin-top: 8rpx;
+}
+
+.orderQuoteLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.orderQuoteValue {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-price;
+}
+
+.orderLastMsg {
+  margin-top: 8rpx;
+  padding: 8rpx 12rpx;
+  background: $color-bg-page;
+  border-radius: $radius-sm;
+}
+
+.orderLastMsgText {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  @include text-ellipsis-multi(1);
+}
+
 .orderInfo {
   display: flex;
   align-items: center;

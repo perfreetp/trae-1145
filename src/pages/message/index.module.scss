@@ -117,3 +117,9 @@
   margin-top: 8rpx;
   @include text-ellipsis-multi(2);
 }
+
+.messageLink {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  margin-top: 12rpx;
+}

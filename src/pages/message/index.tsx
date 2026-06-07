@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView } from '@tarojs/components';
-import { mockMessages } from '@/data/messages';
+import Taro from '@tarojs/taro';
 import classnames from 'classnames';
+import { useAppStore } from '@/store';
 import styles from './index.module.scss';
 
 const tabs = ['全部', '交易', '进度', '系统'];
@@ -20,11 +21,22 @@ const typeLabelMap: Record<string, { label: string; style: string }> = {
 
 const MessagePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const messages = useAppStore(s => s.messages);
+  const markMessageRead = useAppStore(s => s.markMessageRead);
 
-  const filteredMessages = mockMessages.filter(msg => {
+  const filteredMessages = messages.filter(msg => {
     const type = typeFilterMap[activeTab];
     return !type || msg.type === type;
   });
+
+  const handleMessageClick = (msg: typeof messages[0]) => {
+    if (!msg.read) {
+      markMessageRead(msg.id);
+    }
+    if (msg.linkUrl) {
+      Taro.navigateTo({ url: msg.linkUrl });
+    }
+  };
 
   return (
     <View className={styles.container}>
@@ -42,13 +54,14 @@ const MessagePage: React.FC = () => {
           {filteredMessages.map(msg => {
             const typeInfo = typeLabelMap[msg.type];
             return (
-              <View key={msg.id} className={classnames(styles.messageCard, !msg.read && styles.messageUnread)}>
+              <View key={msg.id} className={classnames(styles.messageCard, !msg.read && styles.messageUnread)} onClick={() => handleMessageClick(msg)}>
                 <View className={styles.messageHeader}>
                   <Text className={classnames(styles.messageType, typeInfo.style)}>{typeInfo.label}</Text>
                   <Text className={styles.messageTime}>{msg.createdAt}</Text>
                 </View>
                 <Text className={styles.messageTitle}>{msg.title}</Text>
                 <Text className={styles.messageContent}>{msg.content}</Text>
+                {msg.linkUrl && <Text className={styles.messageLink}>查看详情 ›</Text>}
               </View>
             );
           })}

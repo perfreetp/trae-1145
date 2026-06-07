@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Swiper, SwiperItem, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import ProductCard from '@/components/ProductCard';
@@ -23,7 +23,8 @@ const quickEntries = [
 const HomePage: React.FC = () => {
   const products = useAppStore(s => s.products);
   const demands = useAppStore(s => s.demands);
-  const [unreadCount] = useState(3);
+  const messages = useAppStore(s => s.messages);
+  const unreadCount = messages.filter(m => !m.read).length;
 
   const handleProductClick = (id: string) => {
     Taro.navigateTo({ url: `/pages/dataDetail/index?id=${id}` });

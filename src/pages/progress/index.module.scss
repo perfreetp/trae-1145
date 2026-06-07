@@ -181,3 +181,36 @@
   font-weight: $font-weight-medium;
   color: $color-text-white;
 }
+
+.confirmedBtn {
+  flex: 1;
+  height: $button-height-lg;
+  background: $color-success;
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+}
+
+.confirmedBtnText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+}
+
+.withdrawnBtn {
+  flex: 1;
+  height: $button-height-lg;
+  background: $color-bg-hover;
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.withdrawnBtnText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-text-tertiary;
+}

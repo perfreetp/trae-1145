@@ -49,6 +49,7 @@ const DemandDetailPage: React.FC = () => {
           <View className={styles.demanderInfo}>
             <Text className={styles.demanderName}>{demand.demander}</Text>
             <Text className={styles.demanderLabel}>数据需方 · 认证企业</Text>
+            {demand.demanderPhone && <Text className={styles.demanderPhone}>📞 {demand.demanderPhone}</Text>}
           </View>
         </View>
         <View className={styles.responseInfo}>

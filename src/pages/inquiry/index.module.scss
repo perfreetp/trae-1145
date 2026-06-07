@@ -69,6 +69,11 @@
   margin-bottom: 12rpx;
 }
 
+.formRequired {
+  color: $color-error;
+  margin-left: 4rpx;
+}
+
 .formInput {
   width: 100%;
   height: 80rpx;

@@ -49,6 +49,7 @@ const PublishDemandPage: React.FC = () => {
       budgetUnit,
       demander: contactName.trim(),
       demanderAvatar: 'https://picsum.photos/id/64/200/200',
+      demanderPhone: contactPhone.trim(),
       publishDate: today,
       deadline: deadline.trim(),
       responseCount: 0,

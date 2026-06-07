@@ -41,7 +41,7 @@ const IntentionPage: React.FC = () => {
   });
 
   const handleOrderClick = (orderId: string) => {
-    Taro.navigateTo({ url: `/pages/progress/index?id=${orderId}` });
+    Taro.navigateTo({ url: `/pages/intentionDetail/index?id=${orderId}` });
   };
 
   return (
@@ -68,6 +68,15 @@ const IntentionPage: React.FC = () => {
                 </Text>
               </View>
               <Text className={styles.orderTitle}>{order.productTitle}</Text>
+              <View className={styles.orderQuoteRow}>
+                <Text className={styles.orderQuoteLabel}>报价</Text>
+                <Text className={styles.orderQuoteValue}>{order.quoteAmount}</Text>
+              </View>
+              {order.lastMessage && (
+                <View className={styles.orderLastMsg}>
+                  <Text className={styles.orderLastMsgText}>{order.lastMessage}</Text>
+                </View>
+              )}
               <View className={styles.orderInfo}>
                 <Text className={styles.orderCounterparty}>合作方：{order.counterparty}</Text>
                 <Text className={styles.orderDate}>{order.updatedAt}</Text>

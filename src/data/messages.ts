@@ -7,7 +7,8 @@ export const mockMessages: Message[] = [
     content: '您对"全国企业工商注册数据集"的询价意向已被供方确认，请尽快完成合规材料提交。',
     type: 'transaction',
     read: false,
-    createdAt: '2026-06-08 10:30'
+    createdAt: '2026-06-08 10:30',
+    linkUrl: '/pages/intentionDetail/index?id=io1'
   },
   {
     id: 'm2',
@@ -15,7 +16,8 @@ export const mockMessages: Message[] = [
     content: '订单"城市交通流量实时数据"已进入合规审核阶段，预计3个工作日内完成审核。',
     type: 'progress',
     read: false,
-    createdAt: '2026-06-08 09:15'
+    createdAt: '2026-06-08 09:15',
+    linkUrl: '/pages/progress/index?id=io2'
   },
   {
     id: 'm3',
@@ -23,7 +25,8 @@ export const mockMessages: Message[] = [
     content: '有3条新需求与您的数据产品匹配，请及时查看并响应。',
     type: 'system',
     read: false,
-    createdAt: '2026-06-07 16:45'
+    createdAt: '2026-06-07 16:45',
+    linkUrl: ''
   },
   {
     id: 'm4',
@@ -31,7 +34,8 @@ export const mockMessages: Message[] = [
     content: '您提交的"金融信贷风险评估数据"合规材料已通过审核，可以进行下一步操作。',
     type: 'progress',
     read: true,
-    createdAt: '2026-06-07 14:20'
+    createdAt: '2026-06-07 14:20',
+    linkUrl: '/pages/progress/index?id=io5'
   },
   {
     id: 'm5',
@@ -39,7 +43,8 @@ export const mockMessages: Message[] = [
     content: '金信评估对您的"全国企业工商注册数据集"发起了询价请求，请及时回复。',
     type: 'transaction',
     read: true,
-    createdAt: '2026-06-06 11:30'
+    createdAt: '2026-06-06 11:30',
+    linkUrl: '/pages/intentionDetail/index?id=io1'
   },
   {
     id: 'm6',
@@ -47,7 +52,8 @@ export const mockMessages: Message[] = [
     content: '平台将于2026年6月10日凌晨2:00-4:00进行系统升级维护，届时部分功能暂不可用。',
     type: 'system',
     read: true,
-    createdAt: '2026-06-05 18:00'
+    createdAt: '2026-06-05 18:00',
+    linkUrl: ''
   },
   {
     id: 'm7',
@@ -55,7 +61,8 @@ export const mockMessages: Message[] = [
     content: '订单"气象环境监测数据服务"已完成交付，请确认并评价。',
     type: 'transaction',
     read: true,
-    createdAt: '2026-06-04 09:00'
+    createdAt: '2026-06-04 09:00',
+    linkUrl: '/pages/progress/index?id=io4'
   },
   {
     id: 'm8',
@@ -63,6 +70,7 @@ export const mockMessages: Message[] = [
     content: '您正在查看的"电商用户行为分析数据集"风险等级为高，请仔细阅读合规说明后再进行操作。',
     type: 'system',
     read: true,
-    createdAt: '2026-06-03 15:30'
+    createdAt: '2026-06-03 15:30',
+    linkUrl: ''
   }
 ]

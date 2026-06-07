@@ -1,0 +1,316 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 160rpx;
+}
+
+.orderHeader {
+  background: $color-bg-card;
+  padding: 32rpx $page-padding;
+}
+
+.orderTitle {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+.orderMeta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 16rpx;
+  flex-wrap: wrap;
+}
+
+.orderTag {
+  font-size: $font-size-xs;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-round;
+  white-space: nowrap;
+}
+
+.typeSupply {
+  background: $color-tag-bg;
+  color: $color-tag-text;
+}
+
+.typeDemand {
+  background: $color-tag-bg-orange;
+  color: $color-tag-text-orange;
+}
+
+.statusPending {
+  background: $color-tag-bg-orange;
+  color: $color-tag-text-orange;
+}
+
+.statusNegotiating {
+  background: $color-tag-bg;
+  color: $color-tag-text;
+}
+
+.statusCompliance {
+  background: $color-tag-bg-green;
+  color: $color-tag-text-green;
+}
+
+.statusConfirmed {
+  background: $color-tag-bg-green;
+  color: $color-tag-text-green;
+}
+
+.statusWithdrawn {
+  background: $color-bg-hover;
+  color: $color-text-tertiary;
+}
+
+.orderId {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.section {
+  background: $color-bg-card;
+  margin-top: 16rpx;
+  padding: 32rpx $page-padding;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 20rpx;
+}
+
+.infoGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx 32rpx;
+}
+
+.infoItem {
+  flex: 0 0 auto;
+  min-width: 280rpx;
+}
+
+.infoLabel {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.infoValue {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  margin-top: 4rpx;
+}
+
+.infoValueHighlight {
+  color: $color-price;
+  font-weight: $font-weight-bold;
+}
+
+.chatList {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.chatItem {
+  display: flex;
+  gap: 16rpx;
+}
+
+.chatItemSupply {
+  flex-direction: row;
+}
+
+.chatItemDemand {
+  flex-direction: row-reverse;
+}
+
+.chatAvatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-round;
+  flex-shrink: 0;
+  background: $color-bg-page;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: $font-size-sm;
+  color: $color-text-white;
+  font-weight: $font-weight-semibold;
+}
+
+.avatarSupply {
+  background: $color-primary;
+}
+
+.avatarDemand {
+  background: $color-warning;
+}
+
+.chatBubble {
+  max-width: 480rpx;
+  padding: 16rpx 20rpx;
+  border-radius: $radius-md;
+  position: relative;
+}
+
+.bubbleSupply {
+  background: $color-primary;
+  border-top-left-radius: 4rpx;
+}
+
+.bubbleDemand {
+  background: $color-bg-page;
+  border-top-right-radius: 4rpx;
+}
+
+.chatSender {
+  font-size: $font-size-xs;
+  margin-bottom: 4rpx;
+}
+
+.senderSupply {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.senderDemand {
+  color: $color-text-tertiary;
+}
+
+.chatContent {
+  font-size: $font-size-md;
+  line-height: $line-height-normal;
+}
+
+.contentSupply {
+  color: $color-text-white;
+}
+
+.contentDemand {
+  color: $color-text-primary;
+}
+
+.chatTime {
+  font-size: $font-size-xs;
+  margin-top: 6rpx;
+}
+
+.timeSupply {
+  color: rgba(255, 255, 255, 0.6);
+  text-align: left;
+}
+
+.timeDemand {
+  color: $color-text-tertiary;
+  text-align: right;
+}
+
+.inquiryCard {
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  padding: 20rpx;
+  border: 1rpx solid $color-divider;
+}
+
+.inquiryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 8rpx 0;
+}
+
+.inquiryLabel {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.inquiryValue {
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+}
+
+.progressEntry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx;
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  margin-top: 16rpx;
+}
+
+.progressEntryLeft {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.progressIcon {
+  font-size: 40rpx;
+}
+
+.progressEntryText {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  font-weight: $font-weight-medium;
+}
+
+.progressArrow {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+}
+
+.bottomBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: 16rpx $page-padding;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  z-index: 100;
+}
+
+.msgInput {
+  flex: 1;
+  height: 72rpx;
+  background: $color-bg-page;
+  border-radius: $radius-round;
+  padding: 0 24rpx;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  border: 1rpx solid $color-border;
+}
+
+.sendBtn {
+  height: 72rpx;
+  padding: 0 32rpx;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.sendBtnText {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+  white-space: nowrap;
+}

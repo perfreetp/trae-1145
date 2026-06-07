@@ -26,10 +26,29 @@ export interface Demand {
   budgetUnit: string;
   demander: string;
   demanderAvatar: string;
+  demanderPhone: string;
   publishDate: string;
   deadline: string;
   responseCount: number;
   status: 'open' | 'in_progress' | 'closed';
+}
+
+export interface CommunicationRecord {
+  id: string;
+  sender: string;
+  senderRole: 'supply' | 'demand';
+  content: string;
+  createdAt: string;
+}
+
+export interface InquiryInfo {
+  company: string;
+  contactName: string;
+  phone: string;
+  purpose: string;
+  remark: string;
+  expectedBudget: string;
+  expectedDelivery: string;
 }
 
 export interface IntentionOrder {
@@ -41,6 +60,10 @@ export interface IntentionOrder {
   createdAt: string;
   updatedAt: string;
   counterparty: string;
+  quoteAmount: string;
+  lastMessage: string;
+  communications: CommunicationRecord[];
+  inquiryInfo?: InquiryInfo;
 }
 
 export interface TransactionProgress {
@@ -65,6 +88,7 @@ export interface Message {
   type: 'system' | 'transaction' | 'progress';
   read: boolean;
   createdAt: string;
+  linkUrl: string;
 }
 
 export interface Contact {
