@@ -42,7 +42,16 @@ const InquiryPage: React.FC = () => {
       updatedAt: today,
       counterparty: company.trim(),
       quoteAmount: product.price ? `¥${product.price}/${product.priceUnit}` : '待报价',
+      quoteModified: false,
       lastMessage: `${contactName.trim()}发起询价：${purpose.trim().slice(0, 30)}...`,
+      complianceMaterials: [
+        { label: '数据来源合规证明', status: 'missing' },
+        { label: '数据脱敏处理报告', status: 'missing' },
+        { label: '安全评估报告', status: 'missing' },
+        { label: '数据交易协议模板', status: 'missing' },
+        { label: '个人信息保护影响评估', status: 'missing' }
+      ],
+      complianceSubmitted: false,
       communications: [
         {
           id: `comm_init_${orderCounter}`,
@@ -55,7 +64,6 @@ const InquiryPage: React.FC = () => {
       ],
       demandId: '',
       demandTitle: '',
-      quoteModified: false,
       inquiryInfo: {
         company: company.trim(),
         contactName: contactName.trim(),
@@ -72,9 +80,11 @@ const InquiryPage: React.FC = () => {
       title: '询价意向单已生成',
       content: `您对"${product.title}"的询价已生成意向单(${newOrderId})，供方将在1-3个工作日内回复。`,
       type: 'transaction',
+      subtype: 'status',
       read: false,
       createdAt: timeStr,
-      linkUrl: `/pages/intentionDetail/index?id=${newOrderId}`
+      linkUrl: `/pages/intentionDetail/index?id=${newOrderId}`,
+      orderId: newOrderId
     });
 
     Taro.showToast({ title: '询价已提交，意向单已生成', icon: 'success' });

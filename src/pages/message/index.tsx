@@ -19,6 +19,15 @@ const typeLabelMap: Record<string, { label: string; style: string }> = {
   progress: { label: '进度', style: styles.typeProgress }
 };
 
+const subtypeLabelMap: Record<string, { label: string; style: string }> = {
+  quote: { label: '报价变更', style: styles.subQuote },
+  message: { label: '留言', style: styles.subMessage },
+  compliance: { label: '合规材料', style: styles.subCompliance },
+  delivery: { label: '交付验收', style: styles.subDelivery },
+  status: { label: '状态变更', style: styles.subStatus },
+  system: { label: '系统', style: styles.subSystem }
+};
+
 const MessagePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
   const messages = useAppStore(s => s.messages);
@@ -53,10 +62,14 @@ const MessagePage: React.FC = () => {
         <View className={styles.messageList}>
           {filteredMessages.map(msg => {
             const typeInfo = typeLabelMap[msg.type];
+            const subInfo = subtypeLabelMap[msg.subtype];
             return (
               <View key={msg.id} className={classnames(styles.messageCard, !msg.read && styles.messageUnread)} onClick={() => handleMessageClick(msg)}>
                 <View className={styles.messageHeader}>
-                  <Text className={classnames(styles.messageType, typeInfo.style)}>{typeInfo.label}</Text>
+                  <View className={styles.messageTags}>
+                    <Text className={classnames(styles.messageType, typeInfo.style)}>{typeInfo.label}</Text>
+                    {subInfo && <Text className={classnames(styles.messageSubtype, subInfo.style)}>{subInfo.label}</Text>}
+                  </View>
                   <Text className={styles.messageTime}>{msg.createdAt}</Text>
                 </View>
                 <Text className={styles.messageTitle}>{msg.title}</Text>

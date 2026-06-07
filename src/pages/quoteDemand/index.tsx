@@ -59,6 +59,20 @@ const QuoteDemandPage: React.FC = () => {
       quoteAmount: quoteStr,
       quoteModified: false,
       lastMessage: `供方报价 ${quoteStr}，交付周期 ${deliveryCycle.trim()}`,
+      supplyInfo: {
+        contactName: contactName.trim(),
+        phone: contactPhone.trim(),
+        deliveryCycle: deliveryCycle.trim(),
+        dataDesc: dataDesc.trim()
+      },
+      complianceMaterials: [
+        { label: '数据来源合规证明', status: 'missing' },
+        { label: '数据脱敏处理报告', status: 'missing' },
+        { label: '安全评估报告', status: 'missing' },
+        { label: '数据交易协议模板', status: 'missing' },
+        { label: '个人信息保护影响评估', status: 'missing' }
+      ],
+      complianceSubmitted: false,
       communications: [
         {
           id: `comm_${++commIdCounter}`,
@@ -76,9 +90,11 @@ const QuoteDemandPage: React.FC = () => {
       title: '报价已提交',
       content: `您对"${demand.title}"的报价已生成意向单(${newOrderId})，等待需方确认。`,
       type: 'transaction',
+      subtype: 'quote',
       read: false,
       createdAt: timeStr,
-      linkUrl: `/pages/intentionDetail/index?id=${newOrderId}`
+      linkUrl: `/pages/intentionDetail/index?id=${newOrderId}`,
+      orderId: newOrderId
     });
 
     Taro.showToast({ title: '报价已提交', icon: 'success' });

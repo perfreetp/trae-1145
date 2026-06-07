@@ -11,6 +11,8 @@ const statusLabels: Record<string, string> = {
   negotiating: '沟通中',
   compliance: '合规中',
   confirmed: '已确认',
+  delivering: '交付中',
+  completed: '已完成',
   withdrawn: '已撤回'
 };
 
@@ -19,16 +21,20 @@ const statusStyles: Record<string, string> = {
   negotiating: styles.statusNegotiating,
   compliance: styles.statusCompliance,
   confirmed: styles.statusConfirmed,
+  delivering: styles.statusDelivering,
+  completed: styles.statusCompleted,
   withdrawn: styles.statusWithdrawn
 };
 
-const tabs = ['全部', '待确认', '沟通中', '合规中', '已确认', '已撤回'];
+const tabs = ['全部', '待确认', '沟通中', '合规中', '已确认', '交付中', '已完成', '已撤回'];
 const statusFilterMap: Record<string, string | undefined> = {
   '全部': undefined,
   '待确认': 'pending',
   '沟通中': 'negotiating',
   '合规中': 'compliance',
   '已确认': 'confirmed',
+  '交付中': 'delivering',
+  '已完成': 'completed',
   '已撤回': 'withdrawn'
 };
 
@@ -45,7 +51,9 @@ const statusNodeMap: Record<string, number> = {
   pending: 1,
   negotiating: 2,
   compliance: 3,
-  confirmed: 5,
+  confirmed: 4,
+  delivering: 5,
+  completed: 6,
   withdrawn: 0
 };
 
@@ -57,6 +65,7 @@ const ProgressPage: React.FC = () => {
   const intentionOrders = useAppStore(s => s.intentionOrders);
   const updateOrderStatus = useAppStore(s => s.updateOrderStatus);
   const addMessage = useAppStore(s => s.addMessage);
+  const messages = useAppStore(s => s.messages);
 
   if (orderId) {
     const order = intentionOrders.find(o => o.id === orderId);
@@ -86,16 +95,11 @@ const ProgressPage: React.FC = () => {
         success: (res) => {
           if (res.confirm) {
             updateOrderStatus(order.id, 'withdrawn');
-            const now = new Date();
-            const timeStr = `${now.toISOString().slice(0, 10)} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             addMessage({
-              id: `msg_${++msgIdCounter}`,
-              title: '交易已撤回',
+              id: `msg_${++msgIdCounter}`, title: '交易已撤回',
               content: `订单"${order.productTitle}"已被撤回，交易终止。`,
-              type: 'progress',
-              read: false,
-              createdAt: timeStr,
-              linkUrl: `/pages/intentionDetail/index?id=${order.id}`
+              type: 'progress', subtype: 'status', read: false, createdAt: new Date().toISOString().slice(0, 10),
+              linkUrl: `/pages/intentionDetail/index?id=${order.id}`, orderId: order.id
             });
             Taro.showToast({ title: '已撤回申请', icon: 'success' });
           }
@@ -109,17 +113,12 @@ const ProgressPage: React.FC = () => {
         content: '确认当前交易达成？',
         success: (res) => {
           if (res.confirm) {
-            updateOrderStatus(order.id, 'confirmed');
-            const now = new Date();
-            const timeStr = `${now.toISOString().slice(0, 10)} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            updateOrderStatus(order.id, 'delivering', '交易已确认，进入交付阶段');
             addMessage({
-              id: `msg_${++msgIdCounter}`,
-              title: '交易已确认',
-              content: `订单"${order.productTitle}"已确认成交，请等待数据交付。`,
-              type: 'transaction',
-              read: false,
-              createdAt: timeStr,
-              linkUrl: `/pages/intentionDetail/index?id=${order.id}`
+              id: `msg_${++msgIdCounter}`, title: '交易已确认',
+              content: `订单"${order.productTitle}"已确认成交，进入数据交付阶段。`,
+              type: 'transaction', subtype: 'delivery', read: false, createdAt: new Date().toISOString().slice(0, 10),
+              linkUrl: `/pages/intentionDetail/index?id=${order.id}`, orderId: order.id
             });
             Taro.showToast({ title: '已确认成交', icon: 'success' });
           }
@@ -139,7 +138,8 @@ const ProgressPage: React.FC = () => {
     };
 
     const isWithdrawn = orderStatus === 'withdrawn';
-    const isConfirmed = orderStatus === 'confirmed';
+    const isCompleted = orderStatus === 'completed';
+    const isDelivering = orderStatus === 'delivering';
 
     return (
       <View className={styles.container}>
@@ -168,7 +168,7 @@ const ProgressPage: React.FC = () => {
             ))}
           </View>
         </View>
-        {!isWithdrawn && !isConfirmed && (
+        {!isWithdrawn && !isCompleted && !isDelivering && (
           <View className={styles.actionArea}>
             <View className={styles.withdrawBtn} onClick={handleWithdraw}>
               <Text className={styles.withdrawBtnText}>撤回申请</Text>
@@ -178,10 +178,17 @@ const ProgressPage: React.FC = () => {
             </View>
           </View>
         )}
-        {isConfirmed && (
+        {isDelivering && (
           <View className={styles.actionArea}>
-            <View className={styles.confirmedBtn}>
-              <Text className={styles.confirmedBtnText}>✓ 交易已确认</Text>
+            <View className={styles.deliveringBtn}>
+              <Text className={styles.deliveringBtnText}>📦 数据交付中</Text>
+            </View>
+          </View>
+        )}
+        {isCompleted && (
+          <View className={styles.actionArea}>
+            <View className={styles.completedBtn}>
+              <Text className={styles.completedBtnText}>✓ 交易已完成</Text>
             </View>
           </View>
         )}
@@ -202,6 +209,8 @@ const ProgressPage: React.FC = () => {
     return !status || order.status === status;
   });
 
+  const getOrderUnreadCount = (orderId: string) => messages.filter(m => m.orderId === orderId && !m.read).length;
+
   const handleOrderClick = (id: string) => {
     Taro.navigateTo({ url: `/pages/progress/index?id=${id}` });
   };
@@ -209,42 +218,50 @@ const ProgressPage: React.FC = () => {
   return (
     <View className={styles.container}>
       <View className={styles.tabs}>
-        {tabs.map((tab, index) => (
-          <View key={tab} className={styles.tab} onClick={() => setActiveTab(index)}>
-            <Text className={classnames(styles.tabText, activeTab === index && styles.tabTextActive)}>{tab}</Text>
-            {activeTab === index && <View className={styles.tabLine} />}
+        <ScrollView scrollX style={{ width: '100%', whiteSpace: 'nowrap' }}>
+          <View className={styles.tabsInner}>
+            {tabs.map((tab, index) => (
+              <View key={tab} className={styles.tab} onClick={() => setActiveTab(index)}>
+                <Text className={classnames(styles.tabText, activeTab === index && styles.tabTextActive)}>{tab}</Text>
+                {activeTab === index && <View className={styles.tabLine} />}
+              </View>
+            ))}
           </View>
-        ))}
+        </ScrollView>
       </View>
 
       <ScrollView scrollY className={styles.listWrap} style={{ height: 'calc(100vh - 88rpx)' }}>
         <View className={styles.orderList}>
-          {filteredOrders.map(order => (
-            <View key={order.id} className={styles.orderCard} onClick={() => handleOrderClick(order.id)}>
-              <View className={styles.cardHeader}>
-                <Text className={classnames(styles.orderType, order.type === 'supply' ? styles.typeSupply : styles.typeDemand)}>
-                  {order.type === 'supply' ? '供方' : '需方'}
-                </Text>
-                <Text className={classnames(styles.orderStatus, statusStyles[order.status])}>
-                  {statusLabels[order.status]}
-                </Text>
-              </View>
-              <Text className={styles.cardTitle}>{order.productTitle}</Text>
-              <View className={styles.cardQuoteRow}>
-                <Text className={styles.cardQuoteLabel}>报价</Text>
-                <Text className={styles.cardQuoteValue}>{order.quoteAmount}</Text>
-              </View>
-              {order.lastMessage && (
-                <View className={styles.cardLastMsg}>
-                  <Text className={styles.cardLastMsgText}>{order.lastMessage}</Text>
+          {filteredOrders.map(order => {
+            const unread = getOrderUnreadCount(order.id);
+            return (
+              <View key={order.id} className={styles.orderCard} onClick={() => handleOrderClick(order.id)}>
+                {unread > 0 && <View className={styles.cardDot} />}
+                <View className={styles.cardHeader}>
+                  <Text className={classnames(styles.orderType, order.type === 'supply' ? styles.typeSupply : styles.typeDemand)}>
+                    {order.type === 'supply' ? '供方' : '需方'}
+                  </Text>
+                  <Text className={classnames(styles.orderStatus, statusStyles[order.status])}>
+                    {statusLabels[order.status]}
+                  </Text>
                 </View>
-              )}
-              <View className={styles.cardFooter}>
-                <Text className={styles.cardCounterparty}>{order.counterparty}</Text>
-                <Text className={styles.cardDate}>{order.updatedAt}</Text>
+                <Text className={styles.cardTitle}>{order.productTitle}</Text>
+                <View className={styles.cardQuoteRow}>
+                  <Text className={styles.cardQuoteLabel}>报价</Text>
+                  <Text className={styles.cardQuoteValue}>{order.quoteAmount}</Text>
+                </View>
+                {order.lastMessage && (
+                  <View className={styles.cardLastMsg}>
+                    <Text className={styles.cardLastMsgText}>{order.lastMessage}</Text>
+                  </View>
+                )}
+                <View className={styles.cardFooter}>
+                  <Text className={styles.cardCounterparty}>{order.counterparty}</Text>
+                  <Text className={styles.cardDate}>{order.updatedAt}</Text>
+                </View>
               </View>
-            </View>
-          ))}
+            );
+          })}
         </View>
       </ScrollView>
     </View>

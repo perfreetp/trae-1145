@@ -68,3 +68,15 @@
   color: $color-price;
   margin-top: 8rpx;
 }
+
+.emptyWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+}

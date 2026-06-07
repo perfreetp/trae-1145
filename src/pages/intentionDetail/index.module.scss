@@ -348,6 +348,106 @@
   font-weight: $font-weight-medium;
 }
 
+.materialItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.materialLabel {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+}
+
+.materialRight {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.materialStatus {
+  font-size: $font-size-sm;
+}
+
+.matDone {
+  color: $color-success;
+}
+
+.matPending {
+  color: $color-warning;
+}
+
+.matMissing {
+  color: $color-text-tertiary;
+}
+
+.materialUploadBtn {
+  font-size: $font-size-sm;
+  color: $color-primary;
+  padding: 4rpx 16rpx;
+  border: 1rpx solid $color-primary;
+  border-radius: $radius-round;
+}
+
+.submitComplianceBtn {
+  margin-top: 20rpx;
+  height: 72rpx;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:active {
+    opacity: 0.9;
+  }
+}
+
+.submitComplianceBtnText {
+  font-size: $font-size-md;
+  color: $color-text-white;
+  font-weight: $font-weight-medium;
+}
+
+.complianceSubmittedText {
+  font-size: $font-size-sm;
+  color: $color-success;
+  margin-top: 16rpx;
+  text-align: center;
+  display: block;
+}
+
+.formItem {
+  margin-bottom: 8rpx;
+}
+
+.formLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.goEvalBtn {
+  background: $color-success !important;
+}
+
+.statusDelivering {
+  background: $color-tag-bg;
+  color: $color-tag-text;
+}
+
+.statusCompleted {
+  background: $color-tag-bg-green;
+  color: $color-tag-text-green;
+}
+
 .progressEntry {
   display: flex;
   align-items: center;

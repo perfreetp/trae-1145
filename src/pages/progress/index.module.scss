@@ -7,14 +7,18 @@
 }
 
 .tabs {
-  display: flex;
   background: $color-bg-card;
   padding: 0 $page-padding;
   border-bottom: 1rpx solid $color-divider;
 }
 
+.tabsInner {
+  display: flex;
+}
+
 .tab {
-  flex: 1;
+  flex-shrink: 0;
+  padding: 0 20rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,10 +63,21 @@
   padding: 24rpx;
   box-shadow: $shadow-card;
   transition: all $transition-base;
+  position: relative;
 
   &:active {
     opacity: 0.95;
   }
+}
+
+.cardDot {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: $radius-round;
+  background: $color-error;
 }
 
 .cardHeader {
@@ -112,6 +127,16 @@
 }
 
 .statusConfirmed {
+  background: $color-tag-bg-green;
+  color: $color-tag-text-green;
+}
+
+.statusDelivering {
+  background: $color-tag-bg;
+  color: $color-tag-text;
+}
+
+.statusCompleted {
   background: $color-tag-bg-green;
   color: $color-tag-text-green;
 }
@@ -383,4 +408,38 @@
   font-size: $font-size-lg;
   font-weight: $font-weight-medium;
   color: $color-text-tertiary;
+}
+
+.deliveringBtn {
+  flex: 1;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+}
+
+.deliveringBtnText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+}
+
+.completedBtn {
+  flex: 1;
+  height: $button-height-lg;
+  background: $color-success;
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+}
+
+.completedBtnText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
 }

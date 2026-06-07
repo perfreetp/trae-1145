@@ -52,6 +52,25 @@ export interface InquiryInfo {
   expectedDelivery: string;
 }
 
+export interface SupplyInfo {
+  contactName: string;
+  phone: string;
+  deliveryCycle: string;
+  dataDesc: string;
+}
+
+export interface ComplianceMaterialItem {
+  label: string;
+  status: 'done' | 'pending' | 'missing';
+}
+
+export interface DeliveryInfo {
+  method: string;
+  deliveryTime: string;
+  acceptanceStatus: 'pending' | 'accepted' | 'rejected';
+  acceptanceTime: string;
+}
+
 export interface IntentionOrder {
   id: string;
   productId: string;
@@ -59,7 +78,7 @@ export interface IntentionOrder {
   demandId: string;
   demandTitle: string;
   type: 'supply' | 'demand';
-  status: 'pending' | 'negotiating' | 'compliance' | 'confirmed' | 'withdrawn';
+  status: 'pending' | 'negotiating' | 'compliance' | 'confirmed' | 'delivering' | 'completed' | 'withdrawn';
   createdAt: string;
   updatedAt: string;
   counterparty: string;
@@ -68,6 +87,10 @@ export interface IntentionOrder {
   lastMessage: string;
   communications: CommunicationRecord[];
   inquiryInfo?: InquiryInfo;
+  supplyInfo?: SupplyInfo;
+  complianceMaterials: ComplianceMaterialItem[];
+  complianceSubmitted: boolean;
+  delivery?: DeliveryInfo;
 }
 
 export interface TransactionProgress {
@@ -90,9 +113,11 @@ export interface Message {
   title: string;
   content: string;
   type: 'system' | 'transaction' | 'progress';
+  subtype: 'quote' | 'message' | 'compliance' | 'delivery' | 'status' | 'system';
   read: boolean;
   createdAt: string;
   linkUrl: string;
+  orderId: string;
 }
 
 export interface Contact {

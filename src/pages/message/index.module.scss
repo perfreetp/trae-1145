@@ -76,6 +76,12 @@
   margin-bottom: 8rpx;
 }
 
+.messageTags {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
 .messageType {
   font-size: $font-size-xs;
   padding: 2rpx 12rpx;
@@ -122,4 +128,41 @@
   font-size: $font-size-sm;
   color: $color-primary;
   margin-top: 12rpx;
+}
+
+.messageSubtype {
+  font-size: 18rpx;
+  padding: 2rpx 8rpx;
+  border-radius: $radius-xs;
+  white-space: nowrap;
+}
+
+.subQuote {
+  background: rgba(234, 88, 12, 0.1);
+  color: #EA580C;
+}
+
+.subMessage {
+  background: rgba(22, 163, 74, 0.1);
+  color: #16A34A;
+}
+
+.subCompliance {
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563EB;
+}
+
+.subDelivery {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8B5CF6;
+}
+
+.subStatus {
+  background: rgba(107, 114, 128, 0.1);
+  color: #6B7280;
+}
+
+.subSystem {
+  background: rgba(107, 114, 128, 0.1);
+  color: #6B7280;
 }
