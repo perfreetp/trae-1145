@@ -1,0 +1,148 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 160rpx;
+}
+
+.demandInfo {
+  background: $color-bg-card;
+  padding: 32rpx $page-padding;
+}
+
+.demandTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.demandMeta {
+  margin-top: 12rpx;
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.demandBudget {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  color: $color-price;
+}
+
+.demandBudgetLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  font-weight: $font-weight-normal;
+}
+
+.demandDemander {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-top: 8rpx;
+}
+
+.formSection {
+  background: $color-bg-card;
+  margin-top: 16rpx;
+  padding: 32rpx $page-padding;
+}
+
+.formTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: 24rpx;
+}
+
+.formItem {
+  margin-bottom: 24rpx;
+}
+
+.formLabel {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  margin-bottom: 12rpx;
+}
+
+.formRequired {
+  color: $color-error;
+  margin-left: 4rpx;
+}
+
+.formInput {
+  width: 100%;
+  height: 80rpx;
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  padding: 0 24rpx;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  border: 1rpx solid $color-border;
+}
+
+.formTextarea {
+  width: 100%;
+  min-height: 200rpx;
+  background: $color-bg-page;
+  border-radius: $radius-md;
+  padding: 20rpx 24rpx;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  border: 1rpx solid $color-border;
+}
+
+.tips {
+  background: $color-bg-card;
+  margin: 16rpx $page-padding 0;
+  padding: 24rpx;
+  border-radius: $radius-md;
+  border: 1rpx solid $color-divider;
+}
+
+.tipsTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: 8rpx;
+}
+
+.tipsText {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  line-height: $line-height-loose;
+}
+
+.bottomBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $color-bg-card;
+  padding: 16rpx $page-padding;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.06);
+  z-index: 100;
+}
+
+.submitBtn {
+  width: 100%;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.submitBtnText {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  color: $color-text-white;
+}

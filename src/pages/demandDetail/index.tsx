@@ -16,7 +16,7 @@ const DemandDetailPage: React.FC = () => {
   const demand = demands.find(d => d.id === router.params.id) || demands[0];
 
   const handleQuote = () => {
-    Taro.navigateTo({ url: `/pages/inquiry/index?id=${demand.id}` });
+    Taro.navigateTo({ url: `/pages/quoteDemand/index?id=${demand.id}` });
   };
 
   return (

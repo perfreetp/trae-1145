@@ -17,7 +17,8 @@ export default defineAppConfig({
     'pages/history/index',
     'pages/publishProduct/index',
     'pages/publishDemand/index',
-    'pages/intentionDetail/index'
+    'pages/intentionDetail/index',
+    'pages/quoteDemand/index'
   ],
   window: {
     backgroundTextStyle: 'light',

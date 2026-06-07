@@ -37,6 +37,7 @@ export interface CommunicationRecord {
   id: string;
   sender: string;
   senderRole: 'supply' | 'demand';
+  type: 'inquiry' | 'message' | 'quote' | 'status';
   content: string;
   createdAt: string;
 }
@@ -55,12 +56,15 @@ export interface IntentionOrder {
   id: string;
   productId: string;
   productTitle: string;
+  demandId: string;
+  demandTitle: string;
   type: 'supply' | 'demand';
   status: 'pending' | 'negotiating' | 'compliance' | 'confirmed' | 'withdrawn';
   createdAt: string;
   updatedAt: string;
   counterparty: string;
   quoteAmount: string;
+  quoteModified: boolean;
   lastMessage: string;
   communications: CommunicationRecord[];
   inquiryInfo?: InquiryInfo;

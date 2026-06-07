@@ -13,6 +13,13 @@ const statusLabels: Record<string, string> = {
   withdrawn: '已撤回'
 };
 
+const typeLabels: Record<string, { label: string; style: string }> = {
+  inquiry: { label: '询价', style: styles.typeTagInquiry },
+  message: { label: '留言', style: styles.typeTagMessage },
+  quote: { label: '报价', style: styles.typeTagQuote },
+  status: { label: '状态', style: styles.typeTagStatus }
+};
+
 let commIdCounter = 500;
 let msgIdCounter = 500;
 
@@ -20,10 +27,13 @@ const IntentionDetailPage: React.FC = () => {
   const router = useRouter();
   const intentionOrders = useAppStore(s => s.intentionOrders);
   const addCommunication = useAppStore(s => s.addCommunication);
+  const updateQuote = useAppStore(s => s.updateQuote);
   const addMessage = useAppStore(s => s.addMessage);
   const order = intentionOrders.find(o => o.id === router.params.id);
 
   const [message, setMessage] = useState('');
+  const [editQuoteVisible, setEditQuoteVisible] = useState(false);
+  const [newQuote, setNewQuote] = useState('');
 
   if (!order) {
     return (
@@ -56,6 +66,7 @@ const IntentionDetailPage: React.FC = () => {
       id: `comm_${++commIdCounter}`,
       sender: '我方',
       senderRole: 'supply' as const,
+      type: 'message' as const,
       content: message.trim(),
       createdAt: timeStr
     };
@@ -74,6 +85,41 @@ const IntentionDetailPage: React.FC = () => {
 
     setMessage('');
     Taro.showToast({ title: '留言已发送', icon: 'success' });
+  };
+
+  const handleSubmitQuote = () => {
+    if (!newQuote.trim()) {
+      Taro.showToast({ title: '请输入新报价', icon: 'none' });
+      return;
+    }
+
+    const now = new Date();
+    const timeStr = `${now.toISOString().slice(0, 10)} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    const record = {
+      id: `comm_${++commIdCounter}`,
+      sender: '我方',
+      senderRole: 'supply' as const,
+      type: 'quote' as const,
+      content: `报价修改为：${newQuote.trim()}`,
+      createdAt: timeStr
+    };
+
+    updateQuote(order.id, newQuote.trim(), record);
+
+    addMessage({
+      id: `msg_${++msgIdCounter}`,
+      title: '报价变更提醒',
+      content: `"${order.productTitle}"的报价已修改为${newQuote.trim()}，请查看确认。`,
+      type: 'transaction',
+      read: false,
+      createdAt: timeStr,
+      linkUrl: `/pages/intentionDetail/index?id=${order.id}`
+    });
+
+    setEditQuoteVisible(false);
+    setNewQuote('');
+    Taro.showToast({ title: '报价已修改', icon: 'success' });
   };
 
   const handleViewProgress = () => {
@@ -110,6 +156,16 @@ const IntentionDetailPage: React.FC = () => {
             <Text className={styles.infoLabel}>报价金额</Text>
             <Text className={classnames(styles.infoValue, styles.infoValueHighlight)}>{order.quoteAmount}</Text>
           </View>
+          {!order.quoteModified && order.status !== 'withdrawn' && order.status !== 'confirmed' && (
+            <View className={styles.infoItem}>
+              <Text className={styles.editQuoteBtn} onClick={() => setEditQuoteVisible(true)}>修改报价</Text>
+            </View>
+          )}
+          {order.quoteModified && (
+            <View className={styles.infoItem}>
+              <Text className={styles.quoteModifiedTag}>已修改</Text>
+            </View>
+          )}
           <View className={styles.infoItem}>
             <Text className={styles.infoLabel}>创建时间</Text>
             <Text className={styles.infoValue}>{order.createdAt}</Text>
@@ -125,6 +181,20 @@ const IntentionDetailPage: React.FC = () => {
             </View>
           )}
         </View>
+
+        {editQuoteVisible && (
+          <View className={styles.editQuoteBox}>
+            <Input className={styles.editQuoteInput} placeholder="输入新报价，如 ¥60,000/年" value={newQuote} onInput={e => setNewQuote(e.detail.value)} />
+            <View className={styles.editQuoteActions}>
+              <View className={styles.editQuoteCancel} onClick={() => { setEditQuoteVisible(false); setNewQuote(''); }}>
+                <Text className={styles.editQuoteCancelText}>取消</Text>
+              </View>
+              <View className={styles.editQuoteConfirm} onClick={handleSubmitQuote}>
+                <Text className={styles.editQuoteConfirmText}>确认修改</Text>
+              </View>
+            </View>
+          </View>
+        )}
       </View>
 
       {order.inquiryInfo && (
@@ -169,18 +239,24 @@ const IntentionDetailPage: React.FC = () => {
         <Text className={styles.sectionTitle}>沟通记录</Text>
         <ScrollView scrollY style={{ maxHeight: '600rpx' }}>
           <View className={styles.chatList}>
-            {order.communications.map(comm => (
-              <View key={comm.id} className={classnames(styles.chatItem, comm.senderRole === 'supply' ? styles.chatItemSupply : styles.chatItemDemand)}>
-                <View className={classnames(styles.chatAvatar, comm.senderRole === 'supply' ? styles.avatarSupply : styles.avatarDemand)}>
-                  <Text>{comm.sender.slice(0, 1)}</Text>
+            {order.communications.map(comm => {
+              const typeInfo = typeLabels[comm.type];
+              return (
+                <View key={comm.id} className={classnames(styles.chatItem, comm.senderRole === 'supply' ? styles.chatItemSupply : styles.chatItemDemand)}>
+                  <View className={classnames(styles.chatAvatar, comm.senderRole === 'supply' ? styles.avatarSupply : styles.avatarDemand)}>
+                    <Text>{comm.sender.slice(0, 1)}</Text>
+                  </View>
+                  <View className={classnames(styles.chatBubble, comm.senderRole === 'supply' ? styles.bubbleSupply : styles.bubbleDemand)}>
+                    <View className={styles.chatBubbleHeader}>
+                      <Text className={classnames(styles.chatSender, comm.senderRole === 'supply' ? styles.senderSupply : styles.senderDemand)}>{comm.sender}</Text>
+                      <Text className={classnames(styles.typeTag, typeInfo.style)}>{typeInfo.label}</Text>
+                    </View>
+                    <Text className={classnames(styles.chatContent, comm.senderRole === 'supply' ? styles.contentSupply : styles.contentDemand)}>{comm.content}</Text>
+                    <Text className={classnames(styles.chatTime, comm.senderRole === 'supply' ? styles.timeSupply : styles.timeDemand)}>{comm.createdAt}</Text>
+                  </View>
                 </View>
-                <View className={classnames(styles.chatBubble, comm.senderRole === 'supply' ? styles.bubbleSupply : styles.bubbleDemand)}>
-                  <Text className={classnames(styles.chatSender, comm.senderRole === 'supply' ? styles.senderSupply : styles.senderDemand)}>{comm.sender}</Text>
-                  <Text className={classnames(styles.chatContent, comm.senderRole === 'supply' ? styles.contentSupply : styles.contentDemand)}>{comm.content}</Text>
-                  <Text className={classnames(styles.chatTime, comm.senderRole === 'supply' ? styles.timeSupply : styles.timeDemand)}>{comm.createdAt}</Text>
-                </View>
-              </View>
-            ))}
+              );
+            })}
           </View>
         </ScrollView>
       </View>

@@ -1,10 +1,36 @@
-import React from 'react';
-import { View, Text } from '@tarojs/components';
+import React, { useState } from 'react';
+import { View, Text, ScrollView } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
 import classnames from 'classnames';
 import { useAppStore } from '@/store';
 import { ProgressNode } from '@/types';
 import styles from './index.module.scss';
+
+const statusLabels: Record<string, string> = {
+  pending: '待确认',
+  negotiating: '沟通中',
+  compliance: '合规中',
+  confirmed: '已确认',
+  withdrawn: '已撤回'
+};
+
+const statusStyles: Record<string, string> = {
+  pending: styles.statusPending,
+  negotiating: styles.statusNegotiating,
+  compliance: styles.statusCompliance,
+  confirmed: styles.statusConfirmed,
+  withdrawn: styles.statusWithdrawn
+};
+
+const tabs = ['全部', '待确认', '沟通中', '合规中', '已确认', '已撤回'];
+const statusFilterMap: Record<string, string | undefined> = {
+  '全部': undefined,
+  '待确认': 'pending',
+  '沟通中': 'negotiating',
+  '合规中': 'compliance',
+  '已确认': 'confirmed',
+  '已撤回': 'withdrawn'
+};
 
 const allProgressNodes: ProgressNode[] = [
   { title: '意向提交', description: '供需双方达成初步意向', completed: true },
@@ -23,155 +49,204 @@ const statusNodeMap: Record<string, number> = {
   withdrawn: 0
 };
 
-const statusLabelMap: Record<string, string> = {
-  pending: '待确认',
-  negotiating: '洽谈中',
-  compliance: '合规审核',
-  confirmed: '已确认',
-  withdrawn: '已撤回'
-};
-
 let msgIdCounter = 600;
 
 const ProgressPage: React.FC = () => {
   const router = useRouter();
+  const orderId = router.params.id;
   const intentionOrders = useAppStore(s => s.intentionOrders);
   const updateOrderStatus = useAppStore(s => s.updateOrderStatus);
   const addMessage = useAppStore(s => s.addMessage);
-  const order = intentionOrders.find(o => o.id === router.params.id);
 
-  const orderTitle = order?.productTitle || '城市交通流量实时数据';
-  const orderId = order?.id || 'SLT20260602001';
-  const orderStatus = order?.status || 'compliance';
-  const currentNode = statusNodeMap[orderStatus] ?? 3;
-  const today = order?.createdAt || '2026-06-02';
+  if (orderId) {
+    const order = intentionOrders.find(o => o.id === orderId);
+    if (!order) {
+      return (
+        <View className={styles.container}>
+          <View className={styles.section}>
+            <Text style={{ color: '#86909C', textAlign: 'center', display: 'block' }}>未找到该意向单</Text>
+          </View>
+        </View>
+      );
+    }
 
-  const progressNodes: ProgressNode[] = allProgressNodes.map((node, index) => {
-    const completed = index < currentNode;
-    const date = completed ? today : undefined;
-    return { ...node, completed, date };
+    const orderStatus = order.status;
+    const currentNode = statusNodeMap[orderStatus] ?? 3;
+    const progressNodes: ProgressNode[] = allProgressNodes.map((node, index) => {
+      const completed = index < currentNode;
+      const date = completed ? order.createdAt : undefined;
+      return { ...node, completed, date };
+    });
+    const currentNodeIndex = progressNodes.findIndex(n => !n.completed);
+
+    const handleWithdraw = () => {
+      Taro.showModal({
+        title: '确认撤回',
+        content: '撤回后交易将终止，确认撤回吗？',
+        success: (res) => {
+          if (res.confirm) {
+            updateOrderStatus(order.id, 'withdrawn');
+            const now = new Date();
+            const timeStr = `${now.toISOString().slice(0, 10)} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            addMessage({
+              id: `msg_${++msgIdCounter}`,
+              title: '交易已撤回',
+              content: `订单"${order.productTitle}"已被撤回，交易终止。`,
+              type: 'progress',
+              read: false,
+              createdAt: timeStr,
+              linkUrl: `/pages/intentionDetail/index?id=${order.id}`
+            });
+            Taro.showToast({ title: '已撤回申请', icon: 'success' });
+          }
+        }
+      });
+    };
+
+    const handleConfirm = () => {
+      Taro.showModal({
+        title: '确认成交',
+        content: '确认当前交易达成？',
+        success: (res) => {
+          if (res.confirm) {
+            updateOrderStatus(order.id, 'confirmed');
+            const now = new Date();
+            const timeStr = `${now.toISOString().slice(0, 10)} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            addMessage({
+              id: `msg_${++msgIdCounter}`,
+              title: '交易已确认',
+              content: `订单"${order.productTitle}"已确认成交，请等待数据交付。`,
+              type: 'transaction',
+              read: false,
+              createdAt: timeStr,
+              linkUrl: `/pages/intentionDetail/index?id=${order.id}`
+            });
+            Taro.showToast({ title: '已确认成交', icon: 'success' });
+          }
+        }
+      });
+    };
+
+    const getDotStyle = (index: number, node: ProgressNode) => {
+      if (node.completed) return styles.timelineDotDone;
+      if (index === currentNodeIndex) return styles.timelineDotCurrent;
+      return styles.timelineDot;
+    };
+    const getTitleStyle = (index: number, node: ProgressNode) => {
+      if (node.completed) return styles.timelineTitleDone;
+      if (index === currentNodeIndex) return styles.timelineTitleCurrent;
+      return styles.timelineTitle;
+    };
+
+    const isWithdrawn = orderStatus === 'withdrawn';
+    const isConfirmed = orderStatus === 'confirmed';
+
+    return (
+      <View className={styles.container}>
+        <View className={styles.orderInfo}>
+          <Text className={styles.orderTitle}>{order.productTitle}</Text>
+          <View className={styles.orderMeta}>
+            <Text className={styles.orderId}>订单号：{order.id}</Text>
+            <Text className={styles.orderStatus}>{statusLabels[orderStatus]}</Text>
+          </View>
+        </View>
+        <View className={styles.section}>
+          <Text className={styles.sectionTitle}>进度节点</Text>
+          <View className={styles.timeline}>
+            {progressNodes.map((node, index) => (
+              <View key={node.title} className={styles.timelineItem}>
+                <View className={getDotStyle(index, node)}>
+                  {node.completed && <Text style={{ fontSize: '14rpx', color: '#fff' }}>✓</Text>}
+                </View>
+                {index < progressNodes.length - 1 && (
+                  <View className={classnames(styles.timelineLine, node.completed && styles.timelineLineDone)} />
+                )}
+                <Text className={getTitleStyle(index, node)}>{node.title}</Text>
+                <Text className={styles.timelineDesc}>{node.description}</Text>
+                {node.date && <Text className={styles.timelineDate}>{node.date}</Text>}
+              </View>
+            ))}
+          </View>
+        </View>
+        {!isWithdrawn && !isConfirmed && (
+          <View className={styles.actionArea}>
+            <View className={styles.withdrawBtn} onClick={handleWithdraw}>
+              <Text className={styles.withdrawBtnText}>撤回申请</Text>
+            </View>
+            <View className={styles.confirmBtn} onClick={handleConfirm}>
+              <Text className={styles.confirmBtnText}>确认成交</Text>
+            </View>
+          </View>
+        )}
+        {isConfirmed && (
+          <View className={styles.actionArea}>
+            <View className={styles.confirmedBtn}>
+              <Text className={styles.confirmedBtnText}>✓ 交易已确认</Text>
+            </View>
+          </View>
+        )}
+        {isWithdrawn && (
+          <View className={styles.actionArea}>
+            <View className={styles.withdrawnBtn}>
+              <Text className={styles.withdrawnBtnText}>交易已撤回</Text>
+            </View>
+          </View>
+        )}
+      </View>
+    );
+  }
+
+  const [activeTab, setActiveTab] = useState(0);
+  const filteredOrders = intentionOrders.filter(order => {
+    const status = statusFilterMap[tabs[activeTab]];
+    return !status || order.status === status;
   });
 
-  const currentNodeIndex = progressNodes.findIndex(n => !n.completed);
-
-  const handleWithdraw = () => {
-    Taro.showModal({
-      title: '确认撤回',
-      content: '撤回后交易将终止，确认撤回吗？',
-      success: (res) => {
-        if (res.confirm) {
-          updateOrderStatus(orderId, 'withdrawn');
-          const now = new Date();
-          const timeStr = `${now.toISOString().slice(0, 10)} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-          addMessage({
-            id: `msg_${++msgIdCounter}`,
-            title: '交易已撤回',
-            content: `订单"${orderTitle}"已被撤回，交易终止。`,
-            type: 'progress',
-            read: false,
-            createdAt: timeStr,
-            linkUrl: `/pages/progress/index?id=${orderId}`
-          });
-          Taro.showToast({ title: '已撤回申请', icon: 'success' });
-        }
-      }
-    });
+  const handleOrderClick = (id: string) => {
+    Taro.navigateTo({ url: `/pages/progress/index?id=${id}` });
   };
-
-  const handleConfirm = () => {
-    Taro.showModal({
-      title: '确认成交',
-      content: '确认当前交易达成？',
-      success: (res) => {
-        if (res.confirm) {
-          updateOrderStatus(orderId, 'confirmed');
-          const now = new Date();
-          const timeStr = `${now.toISOString().slice(0, 10)} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-          addMessage({
-            id: `msg_${++msgIdCounter}`,
-            title: '交易已确认',
-            content: `订单"${orderTitle}"已确认成交，请等待数据交付。`,
-            type: 'transaction',
-            read: false,
-            createdAt: timeStr,
-            linkUrl: `/pages/progress/index?id=${orderId}`
-          });
-          Taro.showToast({ title: '已确认成交', icon: 'success' });
-        }
-      }
-    });
-  };
-
-  const getDotStyle = (index: number, node: ProgressNode) => {
-    if (node.completed) return styles.timelineDotDone;
-    if (index === currentNodeIndex) return styles.timelineDotCurrent;
-    return styles.timelineDot;
-  };
-
-  const getTitleStyle = (index: number, node: ProgressNode) => {
-    if (node.completed) return styles.timelineTitleDone;
-    if (index === currentNodeIndex) return styles.timelineTitleCurrent;
-    return styles.timelineTitle;
-  };
-
-  const isWithdrawn = orderStatus === 'withdrawn';
-  const isConfirmed = orderStatus === 'confirmed';
 
   return (
     <View className={styles.container}>
-      <View className={styles.orderInfo}>
-        <Text className={styles.orderTitle}>{orderTitle}</Text>
-        <View className={styles.orderMeta}>
-          <Text className={styles.orderId}>订单号：{orderId}</Text>
-          <Text className={styles.orderStatus}>{statusLabelMap[orderStatus]}</Text>
-        </View>
+      <View className={styles.tabs}>
+        {tabs.map((tab, index) => (
+          <View key={tab} className={styles.tab} onClick={() => setActiveTab(index)}>
+            <Text className={classnames(styles.tabText, activeTab === index && styles.tabTextActive)}>{tab}</Text>
+            {activeTab === index && <View className={styles.tabLine} />}
+          </View>
+        ))}
       </View>
 
-      <View className={styles.section}>
-        <Text className={styles.sectionTitle}>进度节点</Text>
-        <View className={styles.timeline}>
-          {progressNodes.map((node, index) => (
-            <View key={node.title} className={styles.timelineItem}>
-              <View className={getDotStyle(index, node)}>
-                {node.completed && <Text style={{ fontSize: '14rpx', color: '#fff' }}>✓</Text>}
+      <ScrollView scrollY className={styles.listWrap} style={{ height: 'calc(100vh - 88rpx)' }}>
+        <View className={styles.orderList}>
+          {filteredOrders.map(order => (
+            <View key={order.id} className={styles.orderCard} onClick={() => handleOrderClick(order.id)}>
+              <View className={styles.cardHeader}>
+                <Text className={classnames(styles.orderType, order.type === 'supply' ? styles.typeSupply : styles.typeDemand)}>
+                  {order.type === 'supply' ? '供方' : '需方'}
+                </Text>
+                <Text className={classnames(styles.orderStatus, statusStyles[order.status])}>
+                  {statusLabels[order.status]}
+                </Text>
               </View>
-              {index < progressNodes.length - 1 && (
-                <View className={classnames(styles.timelineLine, node.completed && styles.timelineLineDone)} />
+              <Text className={styles.cardTitle}>{order.productTitle}</Text>
+              <View className={styles.cardQuoteRow}>
+                <Text className={styles.cardQuoteLabel}>报价</Text>
+                <Text className={styles.cardQuoteValue}>{order.quoteAmount}</Text>
+              </View>
+              {order.lastMessage && (
+                <View className={styles.cardLastMsg}>
+                  <Text className={styles.cardLastMsgText}>{order.lastMessage}</Text>
+                </View>
               )}
-              <Text className={getTitleStyle(index, node)}>{node.title}</Text>
-              <Text className={styles.timelineDesc}>{node.description}</Text>
-              {node.date && <Text className={styles.timelineDate}>{node.date}</Text>}
+              <View className={styles.cardFooter}>
+                <Text className={styles.cardCounterparty}>{order.counterparty}</Text>
+                <Text className={styles.cardDate}>{order.updatedAt}</Text>
+              </View>
             </View>
           ))}
         </View>
-      </View>
-
-      {!isWithdrawn && !isConfirmed && (
-        <View className={styles.actionArea}>
-          <View className={styles.withdrawBtn} onClick={handleWithdraw}>
-            <Text className={styles.withdrawBtnText}>撤回申请</Text>
-          </View>
-          <View className={styles.confirmBtn} onClick={handleConfirm}>
-            <Text className={styles.confirmBtnText}>确认成交</Text>
-          </View>
-        </View>
-      )}
-
-      {isConfirmed && (
-        <View className={styles.actionArea}>
-          <View className={styles.confirmedBtn}>
-            <Text className={styles.confirmedBtnText}>✓ 交易已确认</Text>
-          </View>
-        </View>
-      )}
-
-      {isWithdrawn && (
-        <View className={styles.actionArea}>
-          <View className={styles.withdrawnBtn}>
-            <Text className={styles.withdrawnBtnText}>交易已撤回</Text>
-          </View>
-        </View>
-      )}
+      </ScrollView>
     </View>
   );
 };

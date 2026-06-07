@@ -48,10 +48,14 @@ const InquiryPage: React.FC = () => {
           id: `comm_init_${orderCounter}`,
           sender: contactName.trim(),
           senderRole: 'demand',
+          type: 'inquiry',
           content: `发起询价：${purpose.trim()}`,
           createdAt: timeStr
         }
       ],
+      demandId: '',
+      demandTitle: '',
+      quoteModified: false,
       inquiryInfo: {
         company: company.trim(),
         contactName: contactName.trim(),

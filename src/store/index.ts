@@ -5,66 +5,66 @@ import { mockDemands } from '@/data/demands';
 
 const initialOrders: IntentionOrder[] = [
   {
-    id: 'io1', productId: 'p1', productTitle: '全国企业工商注册数据集', type: 'supply', status: 'pending',
+    id: 'io1', productId: 'p1', productTitle: '全国企业工商注册数据集', demandId: '', demandTitle: '', type: 'supply', status: 'pending',
     createdAt: '2026-06-07', updatedAt: '2026-06-08', counterparty: '金信评估',
-    quoteAmount: '¥50,000/年', lastMessage: '您好，我们对贵司的数据产品很感兴趣，请问可以提供样例数据吗？',
+    quoteAmount: '¥50,000/年', quoteModified: false, lastMessage: '您好，我们对贵司的数据产品很感兴趣，请问可以提供样例数据吗？',
     communications: [
-      { id: 'c1', sender: '金信评估', senderRole: 'demand', content: '您好，我们对贵司的数据产品很感兴趣，请问可以提供样例数据吗？', createdAt: '2026-06-07 10:30' },
+      { id: 'c1', sender: '金信评估', senderRole: 'demand', type: 'inquiry', content: '您好，我们对贵司的数据产品很感兴趣，请问可以提供样例数据吗？', createdAt: '2026-06-07 10:30' },
     ]
   },
   {
-    id: 'io2', productId: 'p2', productTitle: '城市交通流量实时数据', type: 'demand', status: 'negotiating',
+    id: 'io2', productId: 'p2', productTitle: '城市交通流量实时数据', demandId: 'd2', demandTitle: '求购城市交通实时数据接口', type: 'demand', status: 'negotiating',
     createdAt: '2026-06-05', updatedAt: '2026-06-08', counterparty: '智途科技',
-    quoteAmount: '¥80,000/年', lastMessage: '价格方面我们可以再商量，能否提供按月订阅方案？',
+    quoteAmount: '¥80,000/年', quoteModified: false, lastMessage: '价格方面我们可以再商量，能否提供按月订阅方案？',
     communications: [
-      { id: 'c2', sender: '智途科技', senderRole: 'demand', content: '我们希望接入实时交通数据接口，延迟要求低于5秒', createdAt: '2026-06-05 14:20' },
-      { id: 'c3', sender: '数据供方', senderRole: 'supply', content: '我们可以提供延迟2秒以内的API接口，覆盖一二线城市', createdAt: '2026-06-05 16:45' },
-      { id: 'c4', sender: '智途科技', senderRole: 'demand', content: '价格方面我们可以再商量，能否提供按月订阅方案？', createdAt: '2026-06-08 09:10' },
+      { id: 'c2', sender: '智途科技', senderRole: 'demand', type: 'inquiry', content: '我们希望接入实时交通数据接口，延迟要求低于5秒', createdAt: '2026-06-05 14:20' },
+      { id: 'c3', sender: '数据供方', senderRole: 'supply', type: 'quote', content: '报价：¥80,000/年，可提供延迟2秒以内的API接口，覆盖一二线城市', createdAt: '2026-06-05 16:45' },
+      { id: 'c4', sender: '智途科技', senderRole: 'demand', type: 'message', content: '价格方面我们可以再商量，能否提供按月订阅方案？', createdAt: '2026-06-08 09:10' },
     ]
   },
   {
-    id: 'io3', productId: 'p4', productTitle: '电商用户行为分析数据集', type: 'supply', status: 'compliance',
+    id: 'io3', productId: 'p4', productTitle: '电商用户行为分析数据集', demandId: '', demandTitle: '', type: 'supply', status: 'compliance',
     createdAt: '2026-06-02', updatedAt: '2026-06-07', counterparty: '商云网络',
-    quoteAmount: '¥65,000/套', lastMessage: '合规材料已提交，请耐心等待审核结果。',
+    quoteAmount: '¥65,000/套', quoteModified: false, lastMessage: '合规材料已提交，请耐心等待审核结果。',
     communications: [
-      { id: 'c5', sender: '商云网络', senderRole: 'demand', content: '希望了解数据脱敏的具体方式和合规保障', createdAt: '2026-06-02 11:00' },
-      { id: 'c6', sender: '数据供方', senderRole: 'supply', content: '我们已通过等保三级认证，数据均经过k-匿名化处理', createdAt: '2026-06-03 09:30' },
-      { id: 'c7', sender: '数据供方', senderRole: 'supply', content: '合规材料已提交，请耐心等待审核结果。', createdAt: '2026-06-07 14:20' },
+      { id: 'c5', sender: '商云网络', senderRole: 'demand', type: 'inquiry', content: '希望了解数据脱敏的具体方式和合规保障', createdAt: '2026-06-02 11:00' },
+      { id: 'c6', sender: '数据供方', senderRole: 'supply', type: 'message', content: '我们已通过等保三级认证，数据均经过k-匿名化处理', createdAt: '2026-06-03 09:30' },
+      { id: 'c7', sender: '数据供方', senderRole: 'supply', type: 'status', content: '合规材料已提交，请耐心等待审核结果。', createdAt: '2026-06-07 14:20' },
     ]
   },
   {
-    id: 'io4', productId: 'p5', productTitle: '气象环境监测数据服务', type: 'demand', status: 'confirmed',
+    id: 'io4', productId: 'p5', productTitle: '气象环境监测数据服务', demandId: 'd9', demandTitle: '农业气象精准预报数据', type: 'demand', status: 'confirmed',
     createdAt: '2026-05-28', updatedAt: '2026-06-04', counterparty: '农数科技',
-    quoteAmount: '¥35,000/年', lastMessage: '交易已确认，数据交付安排中。',
+    quoteAmount: '¥35,000/年', quoteModified: false, lastMessage: '交易已确认，数据交付安排中。',
     communications: [
-      { id: 'c8', sender: '农数科技', senderRole: 'demand', content: '确认合作，期待数据交付', createdAt: '2026-06-04 10:00' },
+      { id: 'c8', sender: '农数科技', senderRole: 'demand', type: 'status', content: '确认合作，期待数据交付', createdAt: '2026-06-04 10:00' },
     ]
   },
   {
-    id: 'io5', productId: 'p6', productTitle: '金融信贷风险评估数据', type: 'supply', status: 'withdrawn',
+    id: 'io5', productId: 'p6', productTitle: '金融信贷风险评估数据', demandId: '', demandTitle: '', type: 'supply', status: 'withdrawn',
     createdAt: '2026-05-20', updatedAt: '2026-05-25', counterparty: '银盾金科',
-    quoteAmount: '¥200,000/年', lastMessage: '由于合规原因，本次交易已撤回。',
+    quoteAmount: '¥200,000/年', quoteModified: false, lastMessage: '由于合规原因，本次交易已撤回。',
     communications: [
-      { id: 'c9', sender: '银盾金科', senderRole: 'demand', content: '需要了解数据来源的合规性证明', createdAt: '2026-05-20 15:00' },
-      { id: 'c10', sender: '数据供方', senderRole: 'supply', content: '由于合规原因，本次交易已撤回。', createdAt: '2026-05-25 09:00' },
+      { id: 'c9', sender: '银盾金科', senderRole: 'demand', type: 'inquiry', content: '需要了解数据来源的合规性证明', createdAt: '2026-05-20 15:00' },
+      { id: 'c10', sender: '数据供方', senderRole: 'supply', type: 'status', content: '由于合规原因，本次交易已撤回。', createdAt: '2026-05-25 09:00' },
     ]
   },
   {
-    id: 'io6', productId: 'p7', productTitle: '物流运输轨迹数据集', type: 'demand', status: 'pending',
+    id: 'io6', productId: 'p7', productTitle: '物流运输轨迹数据集', demandId: '', demandTitle: '', type: 'demand', status: 'pending',
     createdAt: '2026-06-06', updatedAt: '2026-06-07', counterparty: '运链数据',
-    quoteAmount: '¥120,000/年', lastMessage: '我们急需物流轨迹数据用于运输优化，请尽快回复。',
+    quoteAmount: '¥120,000/年', quoteModified: false, lastMessage: '我们急需物流轨迹数据用于运输优化，请尽快回复。',
     communications: [
-      { id: 'c11', sender: '运链数据', senderRole: 'demand', content: '我们急需物流轨迹数据用于运输优化，请尽快回复。', createdAt: '2026-06-06 08:45' },
+      { id: 'c11', sender: '运链数据', senderRole: 'demand', type: 'inquiry', content: '我们急需物流轨迹数据用于运输优化，请尽快回复。', createdAt: '2026-06-06 08:45' },
     ]
   },
   {
-    id: 'io7', productId: 'p3', productTitle: '医疗健康统计年鉴数据', type: 'supply', status: 'negotiating',
+    id: 'io7', productId: 'p3', productTitle: '医疗健康统计年鉴数据', demandId: '', demandTitle: '', type: 'supply', status: 'negotiating',
     createdAt: '2026-06-01', updatedAt: '2026-06-06', counterparty: '医数智能',
-    quoteAmount: '¥150,000/套', lastMessage: '我们需要的标注数据量更大，能否定制？',
+    quoteAmount: '¥150,000/套', quoteModified: false, lastMessage: '我们需要的标注数据量更大，能否定制？',
     communications: [
-      { id: 'c12', sender: '医数智能', senderRole: 'demand', content: '数据集覆盖哪些病种？标注质量如何保证？', createdAt: '2026-06-01 13:20' },
-      { id: 'c13', sender: '数据供方', senderRole: 'supply', content: '覆盖CT/MRI共12个病种，标注由三甲医院专家完成', createdAt: '2026-06-02 10:15' },
-      { id: 'c14', sender: '医数智能', senderRole: 'demand', content: '我们需要的标注数据量更大，能否定制？', createdAt: '2026-06-06 11:30' },
+      { id: 'c12', sender: '医数智能', senderRole: 'demand', type: 'inquiry', content: '数据集覆盖哪些病种？标注质量如何保证？', createdAt: '2026-06-01 13:20' },
+      { id: 'c13', sender: '数据供方', senderRole: 'supply', type: 'quote', content: '报价：¥150,000/套，覆盖CT/MRI共12个病种，标注由三甲医院专家完成', createdAt: '2026-06-02 10:15' },
+      { id: 'c14', sender: '医数智能', senderRole: 'demand', type: 'message', content: '我们需要的标注数据量更大，能否定制？', createdAt: '2026-06-06 11:30' },
     ]
   }
 ];
@@ -90,11 +90,10 @@ interface AppState {
   addIntentionOrder: (order: IntentionOrder) => void;
   updateOrderStatus: (orderId: string, status: IntentionOrder['status']) => void;
   addCommunication: (orderId: string, record: CommunicationRecord) => void;
+  updateQuote: (orderId: string, newQuote: string, record: CommunicationRecord) => void;
   addMessage: (message: Message) => void;
   markMessageRead: (messageId: string) => void;
 }
-
-let msgIdCounter = 100;
 
 export const useAppStore = create<AppState>((set) => ({
   products: [...mockProducts],
@@ -113,6 +112,13 @@ export const useAppStore = create<AppState>((set) => ({
     intentionOrders: state.intentionOrders.map(o =>
       o.id === orderId
         ? { ...o, communications: [...o.communications, record], lastMessage: record.content, updatedAt: record.createdAt.slice(0, 10) }
+        : o
+    )
+  })),
+  updateQuote: (orderId, newQuote, record) => set((state) => ({
+    intentionOrders: state.intentionOrders.map(o =>
+      o.id === orderId
+        ? { ...o, quoteAmount: newQuote, quoteModified: true, communications: [...o.communications, record], lastMessage: record.content, updatedAt: record.createdAt.slice(0, 10) }
         : o
     )
   })),
