@@ -3,25 +3,26 @@ import { View, Text, ScrollView } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import TagFilter from '@/components/TagFilter';
 import ProductCard from '@/components/ProductCard';
-import { mockProducts } from '@/data/products';
+import { useAppStore } from '@/store';
 import styles from './index.module.scss';
 
 const categories = ['全部', '企业征信', '交通出行', '医疗健康', '电商零售', '金融风控', '物流运输', '智慧城市', '农业科技', '教育科研', '环境气象'];
 
 const ProductPage: React.FC = () => {
+  const products = useAppStore(s => s.products);
   const [selectedCategory, setSelectedCategory] = useState('全部');
 
   const filteredProducts = useMemo(() => {
-    if (selectedCategory === '全部') return mockProducts;
-    return mockProducts.filter(p => p.category === selectedCategory);
-  }, [selectedCategory]);
+    if (selectedCategory === '全部') return products;
+    return products.filter(p => p.category === selectedCategory);
+  }, [selectedCategory, products]);
 
   const handleProductClick = (id: string) => {
     Taro.navigateTo({ url: `/pages/dataDetail/index?id=${id}` });
   };
 
   const handleUpload = () => {
-    Taro.showToast({ title: '上架数据功能开发中', icon: 'none' });
+    Taro.navigateTo({ url: '/pages/publishProduct/index' });
   };
 
   return (

@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, Image, Input, Textarea } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
-import { mockProducts } from '@/data/products';
+import { useAppStore } from '@/store';
 import styles from './index.module.scss';
+
+let orderCounter = 900;
 
 const InquiryPage: React.FC = () => {
   const router = useRouter();
-  const product = mockProducts.find(p => p.id === router.params.id) || mockProducts[0];
+  const products = useAppStore(s => s.products);
+  const addIntentionOrder = useAppStore(s => s.addIntentionOrder);
+  const product = products.find(p => p.id === router.params.id) || products[0];
   const [company, setCompany] = useState('');
   const [contactName, setContactName] = useState('');
   const [phone, setPhone] = useState('');
@@ -14,22 +18,23 @@ const InquiryPage: React.FC = () => {
   const [remark, setRemark] = useState('');
 
   const handleSubmit = () => {
-    if (!company.trim()) {
-      Taro.showToast({ title: '请输入公司名称', icon: 'none' });
-      return;
-    }
-    if (!contactName.trim()) {
-      Taro.showToast({ title: '请输入联系人', icon: 'none' });
-      return;
-    }
-    if (!phone.trim()) {
-      Taro.showToast({ title: '请输入联系电话', icon: 'none' });
-      return;
-    }
-    if (!purpose.trim()) {
-      Taro.showToast({ title: '请输入使用目的', icon: 'none' });
-      return;
-    }
+    if (!company.trim()) { Taro.showToast({ title: '请输入公司名称', icon: 'none' }); return; }
+    if (!contactName.trim()) { Taro.showToast({ title: '请输入联系人', icon: 'none' }); return; }
+    if (!phone.trim()) { Taro.showToast({ title: '请输入联系电话', icon: 'none' }); return; }
+    if (!purpose.trim()) { Taro.showToast({ title: '请输入使用目的', icon: 'none' }); return; }
+
+    const today = new Date().toISOString().slice(0, 10);
+    addIntentionOrder({
+      id: `inquiry_${++orderCounter}`,
+      productId: product.id,
+      productTitle: product.title,
+      type: 'demand',
+      status: 'pending',
+      createdAt: today,
+      updatedAt: today,
+      counterparty: company.trim()
+    });
+
     Taro.showToast({ title: '询价已提交，意向单已生成', icon: 'success' });
     setTimeout(() => {
       Taro.navigateBack();

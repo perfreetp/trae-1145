@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
-import { mockDemands } from '@/data/demands';
+import { useAppStore } from '@/store';
 import styles from './index.module.scss';
 
 const statusLabels: Record<string, string> = {
@@ -12,7 +12,8 @@ const statusLabels: Record<string, string> = {
 
 const DemandDetailPage: React.FC = () => {
   const router = useRouter();
-  const demand = mockDemands.find(d => d.id === router.params.id) || mockDemands[0];
+  const demands = useAppStore(s => s.demands);
+  const demand = demands.find(d => d.id === router.params.id) || demands[0];
 
   const handleQuote = () => {
     Taro.navigateTo({ url: `/pages/inquiry/index?id=${demand.id}` });

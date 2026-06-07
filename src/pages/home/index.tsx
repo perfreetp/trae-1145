@@ -3,8 +3,7 @@ import { View, Text, Swiper, SwiperItem, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import ProductCard from '@/components/ProductCard';
 import DemandCard from '@/components/DemandCard';
-import { mockProducts } from '@/data/products';
-import { mockDemands } from '@/data/demands';
+import { useAppStore } from '@/store';
 import styles from './index.module.scss';
 
 const banners = [
@@ -22,6 +21,8 @@ const quickEntries = [
 ];
 
 const HomePage: React.FC = () => {
+  const products = useAppStore(s => s.products);
+  const demands = useAppStore(s => s.demands);
   const [unreadCount] = useState(3);
 
   const handleProductClick = (id: string) => {
@@ -86,7 +87,7 @@ const HomePage: React.FC = () => {
           <Text className={styles.sectionMore} onClick={() => Taro.switchTab({ url: '/pages/product/index' })}>更多 ›</Text>
         </View>
         <View className={styles.productList}>
-          {mockProducts.slice(0, 3).map(product => (
+          {products.slice(0, 3).map(product => (
             <ProductCard key={product.id} product={product} onClick={handleProductClick} compact />
           ))}
         </View>
@@ -98,7 +99,7 @@ const HomePage: React.FC = () => {
           <Text className={styles.sectionMore} onClick={() => Taro.switchTab({ url: '/pages/demand/index' })}>更多 ›</Text>
         </View>
         <View className={styles.demandList}>
-          {mockDemands.slice(0, 3).map(demand => (
+          {demands.slice(0, 3).map(demand => (
             <DemandCard key={demand.id} demand={demand} onClick={handleDemandClick} />
           ))}
         </View>

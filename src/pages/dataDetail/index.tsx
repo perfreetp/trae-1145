@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, Image } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
-import { mockProducts } from '@/data/products';
+import { useAppStore } from '@/store';
 import styles from './index.module.scss';
 
 const DataDetailPage: React.FC = () => {
   const router = useRouter();
-  const product = mockProducts.find(p => p.id === router.params.id) || mockProducts[0];
+  const products = useAppStore(s => s.products);
+  const product = products.find(p => p.id === router.params.id) || products[0];
   const [collected, setCollected] = useState(false);
 
   const riskStyleMap: Record<string, string> = {

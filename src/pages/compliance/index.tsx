@@ -15,7 +15,7 @@ interface AuthItem {
 }
 
 const CompliancePage: React.FC = () => {
-  const [uploads] = useState<UploadItem[]>([
+  const [uploads, setUploads] = useState<UploadItem[]>([
     { label: '数据来源合规证明', status: 'done' },
     { label: '数据脱敏处理报告', status: 'done' },
     { label: '安全评估报告', status: 'pending' },
@@ -31,11 +31,35 @@ const CompliancePage: React.FC = () => {
     { label: '跨境传输', desc: '数据跨境传输到境外', checked: false }
   ]);
 
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleUpload = (index: number) => {
+    Taro.showActionSheet({
+      itemList: ['选择文件上传', '拍照上传'],
+      success: (res) => {
+        console.info('[Compliance] upload action:', res.tapIndex);
+        Taro.showLoading({ title: '上传中...' });
+        setTimeout(() => {
+          Taro.hideLoading();
+          setUploads(prev => prev.map((item, i) =>
+            i === index ? { ...item, status: 'done' as const } : item
+          ));
+          Taro.showToast({ title: '上传成功', icon: 'success' });
+        }, 800);
+      }
+    });
+  };
+
   const toggleAuth = (index: number) => {
+    if (submitted) return;
     setAuthItems(prev => prev.map((item, i) => i === index ? { ...item, checked: !item.checked } : item));
   };
 
   const handleSubmit = () => {
+    if (submitted) {
+      Taro.showToast({ title: '材料已在审核中', icon: 'none' });
+      return;
+    }
     const missing = uploads.filter(u => u.status === 'missing').length;
     if (missing > 0) {
       Taro.showToast({ title: `还有${missing}项材料未上传`, icon: 'none' });
@@ -46,12 +70,14 @@ const CompliancePage: React.FC = () => {
       Taro.showToast({ title: '请至少选择一项授权范围', icon: 'none' });
       return;
     }
+    setSubmitted(true);
+    setUploads(prev => prev.map(item => ({ ...item, status: 'pending' as const })));
     Taro.showToast({ title: '合规材料已提交审核', icon: 'success' });
   };
 
   const statusLabelMap: Record<string, string> = {
     done: '已上传',
-    pending: '审核中',
+    pending: submitted ? '审核中' : '审核中',
     missing: '未上传'
   };
 
@@ -64,11 +90,13 @@ const CompliancePage: React.FC = () => {
   return (
     <View className={styles.container}>
       <View className={styles.alertCard}>
-        <Text className={styles.alertIcon}>⚠️</Text>
+        <Text className={styles.alertIcon}>{submitted ? '✅' : '⚠️'}</Text>
         <View className={styles.alertContent}>
-          <Text className={styles.alertTitle}>合规提醒</Text>
+          <Text className={styles.alertTitle}>{submitted ? '已提交审核' : '合规提醒'}</Text>
           <Text className={styles.alertDesc}>
-            请确保所有材料真实有效，授权范围与实际使用场景一致。虚假材料将导致交易终止并可能承担法律责任。
+            {submitted
+              ? '您的合规材料已提交审核，预计1-3个工作日内完成审核，请耐心等待。'
+              : '请确保所有材料真实有效，授权范围与实际使用场景一致。虚假材料将导致交易终止并可能承担法律责任。'}
           </Text>
         </View>
       </View>
@@ -82,7 +110,9 @@ const CompliancePage: React.FC = () => {
               <Text className={`${styles.uploadStatus} ${statusStyleMap[item.status]}`}>
                 {statusLabelMap[item.status]}
               </Text>
-              {item.status === 'missing' && <Text className={styles.uploadBtn}>上传</Text>}
+              {item.status === 'missing' && !submitted && (
+                <Text className={styles.uploadBtn} onClick={() => handleUpload(index)}>上传</Text>
+              )}
             </View>
           </View>
         ))}
@@ -129,7 +159,7 @@ const CompliancePage: React.FC = () => {
       </View>
 
       <View className={styles.submitBtn} onClick={handleSubmit}>
-        <Text className={styles.submitBtnText}>提交审核</Text>
+        <Text className={styles.submitBtnText}>{submitted ? '审核中' : '提交审核'}</Text>
       </View>
     </View>
   );

@@ -12,6 +12,43 @@
   gap: 24rpx;
 }
 
+.cardRow {
+  position: relative;
+}
+
+.checkWrap {
+  position: absolute;
+  top: 16rpx;
+  right: 16rpx;
+  z-index: 2;
+}
+
+.checkBox {
+  width: 44rpx;
+  height: 44rpx;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all $transition-fast;
+
+  &:active {
+    opacity: 0.8;
+  }
+}
+
+.checkBoxChecked {
+  background: $color-primary;
+  border-color: $color-primary;
+}
+
+.checkBoxText {
+  font-size: $font-size-xs;
+  color: $color-text-white;
+}
+
 .compareBar {
   position: fixed;
   left: 0;
@@ -50,4 +87,96 @@
 .compareBtnText {
   font-size: $font-size-md;
   color: $color-text-white;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+}
+
+.comparePanel {
+  width: 100%;
+  background: $color-bg-card;
+  border-radius: $radius-lg $radius-lg 0 0;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.panelTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.panelClose {
+  font-size: $font-size-lg;
+  color: $color-text-tertiary;
+  padding: 8rpx;
+}
+
+.compareTable {
+  padding: 24rpx 32rpx;
+}
+
+.compareRow {
+  display: flex;
+  border-bottom: 1rpx solid $color-divider;
+  padding: 16rpx 0;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.compareLabel {
+  width: 140rpx;
+  flex-shrink: 0;
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  padding-top: 4rpx;
+}
+
+.compareValues {
+  flex: 1;
+  display: flex;
+  gap: 16rpx;
+}
+
+.compareCell {
+  flex: 1;
+  font-size: $font-size-sm;
+  color: $color-text-primary;
+  word-break: break-all;
+}
+
+.compareCellHighlight {
+  color: $color-price;
+  font-weight: $font-weight-medium;
+}
+
+.compareTag {
+  font-size: $font-size-xs;
+  padding: 2rpx 8rpx;
+  border-radius: $radius-xs;
+  background: $color-tag-bg;
+  color: $color-tag-text;
+  margin-right: 4rpx;
+  margin-bottom: 4rpx;
+  display: inline-block;
 }

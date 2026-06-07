@@ -1,22 +1,55 @@
 import React from 'react';
 import { View, Text } from '@tarojs/components';
-import Taro from '@tarojs/taro';
-import { ProgressNode } from '@/types';
+import Taro, { useRouter } from '@tarojs/taro';
 import classnames from 'classnames';
+import { useAppStore } from '@/store';
+import { ProgressNode } from '@/types';
 import styles from './index.module.scss';
 
-const progressNodes: ProgressNode[] = [
-  { title: '意向提交', description: '供需双方达成初步意向', completed: true, date: '2026-06-02' },
-  { title: '询价沟通', description: '双方就价格和服务内容进行沟通', completed: true, date: '2026-06-04' },
-  { title: '合规审核', description: '提交合规材料，等待审核通过', completed: true, date: '2026-06-07' },
+const allProgressNodes: ProgressNode[] = [
+  { title: '意向提交', description: '供需双方达成初步意向', completed: true },
+  { title: '询价沟通', description: '双方就价格和服务内容进行沟通', completed: false },
+  { title: '合规审核', description: '提交合规材料，等待审核通过', completed: false },
   { title: '合同签署', description: '双方确认合同条款并签署', completed: false },
   { title: '数据交付', description: '供方按约定方式交付数据', completed: false },
   { title: '交易完成', description: '需方确认数据接收，完成评价', completed: false }
 ];
 
-const currentNodeIndex = progressNodes.findIndex(n => !n.completed);
+const statusNodeMap: Record<string, number> = {
+  pending: 1,
+  negotiating: 2,
+  compliance: 3,
+  confirmed: 5,
+  withdrawn: 0
+};
+
+const statusLabelMap: Record<string, string> = {
+  pending: '待确认',
+  negotiating: '洽谈中',
+  compliance: '合规审核',
+  confirmed: '已确认',
+  withdrawn: '已撤回'
+};
 
 const ProgressPage: React.FC = () => {
+  const router = useRouter();
+  const intentionOrders = useAppStore(s => s.intentionOrders);
+  const order = intentionOrders.find(o => o.id === router.params.id);
+
+  const orderTitle = order?.productTitle || '城市交通流量实时数据';
+  const orderId = order?.id || 'SLT20260602001';
+  const orderStatus = order?.status || 'compliance';
+  const currentNode = statusNodeMap[orderStatus] ?? 3;
+  const today = order?.createdAt || '2026-06-02';
+
+  const progressNodes: ProgressNode[] = allProgressNodes.map((node, index) => {
+    const completed = index < currentNode;
+    const date = completed ? today : undefined;
+    return { ...node, completed, date };
+  });
+
+  const currentNodeIndex = progressNodes.findIndex(n => !n.completed);
+
   const handleWithdraw = () => {
     Taro.showModal({
       title: '确认撤回',
@@ -56,10 +89,10 @@ const ProgressPage: React.FC = () => {
   return (
     <View className={styles.container}>
       <View className={styles.orderInfo}>
-        <Text className={styles.orderTitle}>城市交通流量实时数据</Text>
+        <Text className={styles.orderTitle}>{orderTitle}</Text>
         <View className={styles.orderMeta}>
-          <Text className={styles.orderId}>订单号：SLT20260602001</Text>
-          <Text className={styles.orderStatus}>合规审核通过</Text>
+          <Text className={styles.orderId}>订单号：{orderId}</Text>
+          <Text className={styles.orderStatus}>{statusLabelMap[orderStatus]}</Text>
         </View>
       </View>
 
